@@ -11,12 +11,17 @@ import Auth from "./pages/Auth";
 import Sidebar from "./components/Sidebar";
 import Navbar from "./components/Navbar";
 import Loader from "./components/utils/Loader";
+import Settings from "./pages/Settings";
 
 const routes = [
   {
     path: "/dashboard",
     element: <Dashboard />,
   },
+  {
+    path: "/settings", 
+    "element": <Settings/>
+  }
 ];
 
 function App() {
@@ -86,7 +91,7 @@ function App() {
                 key={route?.path}
                 path={route?.path}
                 element={
-                  loading ? <Loader color="black" /> : token && <Dashboard />
+                  loading ? <Loader color="black" /> : token && route?.element
                 }
               />
             ))}
