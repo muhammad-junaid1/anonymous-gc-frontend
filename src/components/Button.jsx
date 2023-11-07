@@ -1,18 +1,17 @@
 import { Button as Btn } from "@mui/material";
 
+// eslint-disable-next-line react/prop-types
 const Button = ({ children, props, type="primary", style, onClick }) => {
   if (type === "primary") {
     return (
       <Btn
         type="button"
         style={{ background: "black", fontSize: "15px", color: "white", ...style }}
-        className={`rounded text-white font-bold flex justify-center items-center`}
+        className={`rounded shadow text-white font-bold flex justify-center items-center`}
         onClick={onClick}
         {...props}
       >
-        <strong style={{
-            fontSize: "14px"
-        }}>{children}</strong>
+      {children}
       </Btn>
     );
   } else {
@@ -20,12 +19,10 @@ const Button = ({ children, props, type="primary", style, onClick }) => {
       <Btn
         type="button"
         style={{ background: "grey", color: "black" }}
-        className="rounded text-white font-bold flex justify-center items-center"
+        className="rounded shadow text-white font-bold flex justify-center items-center"
         {...props}
       >
-        <strong style={{
-            fontSize: "14px"
-        }}>{children}</strong>
+        {children}
       </Btn>
     );
   }
