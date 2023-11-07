@@ -82,7 +82,7 @@ function App() {
 
       <div className="flex">
         {showNavbarSidebar() && !loading && <Sidebar />}
-        <main className="flex-1 pt-14 bg-gray-100">
+        <main className={`flex-1 ${showNavbarSidebar() && 'pt-14'} bg-gray-100`}>
           {showNavbarSidebar() && !loading && <Navbar />}
           <Routes>
             <Route path="/" element={<Auth />} />
