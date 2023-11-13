@@ -109,7 +109,7 @@ const Auth = () => {
             {btnLoading ? (
               <CircularProgress style={{ color: "white" }} size={20} />
             ) : (
-              <span>Next</span>
+              <span>Login</span>
             )}
           </Button>
         </form>
