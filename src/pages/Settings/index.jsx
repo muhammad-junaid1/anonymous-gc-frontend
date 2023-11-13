@@ -4,13 +4,16 @@ import { useStateContext } from "../../ContextProvider";
 import Avatar from "../../assets/user.png";
 import { toast } from "react-toastify";
 import axios from "../../axiosConfig";
+import { CircularProgress } from "@mui/material";
 
 const Settings = () => {
-  const { User } = useStateContext();
+  const { User, setUser } = useStateContext();
   const [values, setValues] = useState({
     username: User?.username,
   });
   const [isDisabled, setIsDisabled] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [saveBtnLoading, setSaveBtnLoading] = useState(false);
   const [selectedImage, setSelectedImage] = useState({
     url: "",
     file: null,
@@ -26,24 +29,50 @@ const Settings = () => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
 
-    reader.onload = (e) => {
-      setSelectedImage({
-        url: e.target.result,
-        file,
-      });
+    reader.onload = async (e) => {
+      try {
+        const data = new FormData();
+
+        data.append("file", file);
+        setLoading(true);
+        await axios.post("/upload-file", data, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        setSelectedImage({
+          url: e.target.result,
+          file,
+        });
+      } catch (error) {
+        console.log(error);
+        toast.error("Something went wrong, try again please!", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
+      setLoading(false);
     };
   };
 
   const handleSubmit = async () => {
     try {
-      const data = {
-        file: selectedImage?.file, 
-        ...values
-      };
-      await axios.post("/profile", JSON.stringify(data), {
-        headers: {
-          "Content-Type": "application/json",
-        },
+      setSaveBtnLoading(true);
+      const response = await axios.post("/profile", JSON.stringify(values));
+      setUser({...User, ...response.data?.data});
+      toast.success("Settings updated!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
       });
     } catch (error) {
       console.log(error);
@@ -57,6 +86,7 @@ const Settings = () => {
         theme: "light",
       });
     }
+      setSaveBtnLoading(false);
   };
 
   useEffect(() => {
@@ -75,13 +105,22 @@ const Settings = () => {
         <h1 className="text-primary mb-2 font-bold uppercase text-xs">
           Profile pic
         </h1>
-        <img
-          className="mb-2"
-          width={100}
-          height={100}
-          src={selectedImage?.url || User?.profile_picture || Avatar}
-          alt="profile pic"
-        />
+        {loading ? (
+          <div className="mb-2">
+            <CircularProgress size={24} color="success" />
+          </div>
+        ) : (
+          <div className="mb-2 image-container">
+            <img
+              className="round-image"
+              width={100}
+              height={100}
+              src={selectedImage?.url || User?.profile_picture || Avatar}
+              alt="profile pic"
+            />
+          </div>
+        )}
+
         <input onInput={handleUpload} type="file" />
       </div>
       <div className="mt-8">
@@ -132,7 +171,7 @@ const Settings = () => {
           }}
           className="mt-4"
         >
-          Save
+        {saveBtnLoading ? <CircularProgress size={18} style={{color: "white"}}/> : <span>Save</span>}
         </Button>
       </div>
     </div>
