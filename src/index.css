@@ -27,6 +27,11 @@ html, body {
   --primary-color: #006cff;
 }
 
+button:disabled{
+  background: #ddd !important;
+  color: grey !important;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -34,4 +39,8 @@ html, body {
 
 .text-primary {
   color: var(--primary-color);
+}
+
+.bg-primary {
+  background-color: var(--primary-color);
 }
