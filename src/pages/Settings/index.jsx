@@ -5,19 +5,23 @@ import Avatar from "../../assets/user.png";
 import { toast } from "react-toastify";
 import axios from "../../axiosConfig";
 import { CircularProgress } from "@mui/material";
+import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 
 const Settings = () => {
   const { User, setUser } = useStateContext();
   const [values, setValues] = useState({
-    username: User?.username,
+    displayName: User?.displayName,
   });
+  const [newPassword, setNewPassword] = useState("");
   const [isDisabled, setIsDisabled] = useState(false);
   const [loading, setLoading] = useState(false);
   const [saveBtnLoading, setSaveBtnLoading] = useState(false);
+  const [changePwdBtnLoading, setChangePwdBtnLoading] = useState(false);
   const [selectedImage, setSelectedImage] = useState({
     url: "",
     file: null,
   });
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleInput = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
@@ -39,6 +43,15 @@ const Settings = () => {
           headers: {
             "Content-Type": "multipart/form-data",
           },
+        });
+          toast.success("Profile Picture is updated!", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
         });
         setSelectedImage({
           url: e.target.result,
@@ -64,7 +77,7 @@ const Settings = () => {
     try {
       setSaveBtnLoading(true);
       const response = await axios.post("/profile", JSON.stringify(values));
-      setUser({...User, ...response.data?.data});
+      setUser({ ...User, ...response.data?.data });
       toast.success("Settings updated!", {
         position: "top-right",
         autoClose: 3000,
@@ -86,7 +99,35 @@ const Settings = () => {
         theme: "light",
       });
     }
-      setSaveBtnLoading(false);
+    setSaveBtnLoading(false);
+  };
+
+  const handleChangePassword = async () => {
+    try {
+      setChangePwdBtnLoading(true);
+      await axios.post("/profile", JSON.stringify({ password: newPassword }));
+      toast.success("Password updated!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong, try again please!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+    setChangePwdBtnLoading(false);
   };
 
   useEffect(() => {
@@ -110,7 +151,7 @@ const Settings = () => {
             <CircularProgress size={24} color="success" />
           </div>
         ) : (
-          <div className="mb-2 image-container">
+          <div className="mb-3 image-container">
             <img
               className="round-image"
               width={100}
@@ -127,17 +168,78 @@ const Settings = () => {
         <h1 className="text-primary mb-2 font-bold uppercase text-xs">
           General
         </h1>
-        <label htmlFor="username" className="block">
-          Username
+        <label htmlFor="displayName" className="block text-sm">
+          Display Name
         </label>
         <input
           required
-          value={values?.username}
-          name="username"
+          value={values?.displayName}
+          name="displayName"
           onInput={handleInput}
           className="border-[0.5px] w-3/12 border-gray-400 rounded-[4px] p-2"
           type="text"
         />
+
+        <div className="mt-2">
+          <Button
+            onClick={handleSubmit}
+            props={{
+              disabled: isDisabled,
+            }}
+          >
+            {saveBtnLoading ? (
+              <CircularProgress size={18} style={{ color: "white" }} />
+            ) : (
+              <span>Save</span>
+            )}
+          </Button>
+        </div>
+      </div>
+
+      <div className="mt-8">
+        <h1 className="text-primary mb-2 font-bold uppercase text-xs">
+          Password
+        </h1>
+
+        <label htmlFor="password" className="block text-sm">
+          New Password
+        </label>
+        <div className="relative w-3/12">
+          {showPassword ? (
+            <IoMdEyeOff
+              onClick={() => setShowPassword(false)}
+              className="absolute cursor-pointer right-3 top-[50%] -translate-y-[50%]"
+            />
+          ) : (
+            <IoMdEye
+              onClick={() => setShowPassword(true)}
+              className="absolute cursor-pointer right-3 top-[50%] -translate-y-[50%]"
+            />
+          )}
+          <input
+            required
+            value={newPassword}
+            name="password"
+            onInput={(e) => setNewPassword(e.target.value)}
+            className="border-[0.5px] w-full border-gray-400 rounded-[4px] p-2"
+            type={showPassword ? "text" : "password"}
+          />
+
+        </div>
+          <div className="mt-2">
+            <Button
+              onClick={handleChangePassword}
+              props={{
+                disabled: !newPassword,
+              }}
+            >
+              {changePwdBtnLoading ? (
+                <CircularProgress size={18} style={{ color: "white" }} />
+              ) : (
+                <span>Update</span>
+              )}
+            </Button>
+          </div>
       </div>
       {/* <div className="mt-8">
         <h1 className="text-primary font-bold uppercase text-xs mb-2">Email</h1>
@@ -163,17 +265,6 @@ const Settings = () => {
           </div>
         </div>
       </div> */}
-      <div className="mt-4">
-        <Button
-          onClick={handleSubmit}
-          props={{
-            disabled: isDisabled,
-          }}
-          className="mt-4"
-        >
-        {saveBtnLoading ? <CircularProgress size={18} style={{color: "white"}}/> : <span>Save</span>}
-        </Button>
-      </div>
     </div>
   );
 };

@@ -17,7 +17,7 @@ const Navbar = () => {
           <img alt="" className="mr-3" src={Logo} width={30} height={30} />
         </a>
         <p>
-          Welcome <strong>{User?.username}</strong>
+          Welcome <strong>{User?.displayName}</strong>
         </p>
       </div>
       <Button
