@@ -1,6 +1,7 @@
 import {MdOutlineDashboard, MdSettings} from "react-icons/md";
 import SidebarItem from "./sidebar/SidebarItem";
 import {FiSettings} from "react-icons/fi";
+import {IoPeople , IoPeopleOutline } from "react-icons/io";
 import {RiDashboardFill} from "react-icons/ri";
 import { useLocation } from "react-router";
 
@@ -16,7 +17,13 @@ const sidebarItems = [
     link: "/settings", 
     icon: <FiSettings size={16}/>, 
     activeIcon: <MdSettings className="text-primary" size={16}/>
-  }
+  },
+  {
+    text: "Employees", 
+    link: "/employees", 
+    icon: <IoPeopleOutline  size={16}/>, 
+    activeIcon: <IoPeople  className="text-primary" size={16}/>
+  },
 ];
 
 const Sidebar = () => {

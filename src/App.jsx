@@ -12,6 +12,7 @@ import Sidebar from "./components/Sidebar";
 import Navbar from "./components/Navbar";
 import Loader from "./components/utils/Loader";
 import Settings from "./pages/Settings";
+import Employees from "./pages/Employees";
 
 const routes = [
   {
@@ -20,7 +21,11 @@ const routes = [
   },
   {
     path: "/settings", 
-    "element": <Settings/>
+    element: <Settings/>
+  }, 
+  {
+    path: "/employees", 
+    element: <Employees/>
   }
 ];
 
