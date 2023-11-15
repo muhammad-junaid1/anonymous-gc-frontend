@@ -44,7 +44,7 @@ const Settings = () => {
             "Content-Type": "multipart/form-data",
           },
         });
-          toast.success("Profile Picture is updated!", {
+        toast.success("Profile Picture is updated!", {
           position: "top-right",
           autoClose: 3000,
           hideProgressBar: false,
@@ -224,22 +224,21 @@ const Settings = () => {
             className="border-[0.5px] w-full border-gray-400 rounded-[4px] p-2"
             type={showPassword ? "text" : "password"}
           />
-
         </div>
-          <div className="mt-2">
-            <Button
-              onClick={handleChangePassword}
-              props={{
-                disabled: !newPassword,
-              }}
-            >
-              {changePwdBtnLoading ? (
-                <CircularProgress size={18} style={{ color: "white" }} />
-              ) : (
-                <span>Update</span>
-              )}
-            </Button>
-          </div>
+        <div className="mt-2">
+          <Button
+            onClick={handleChangePassword}
+            props={{
+              disabled: !newPassword,
+            }}
+          >
+            {changePwdBtnLoading ? (
+              <CircularProgress size={18} style={{ color: "white" }} />
+            ) : (
+              <span>Update</span>
+            )}
+          </Button>
+        </div>
       </div>
       {/* <div className="mt-8">
         <h1 className="text-primary font-bold uppercase text-xs mb-2">Email</h1>
