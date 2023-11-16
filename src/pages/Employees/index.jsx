@@ -16,7 +16,6 @@ const Employees = () => {
   return (
     <div className="p-5 rounded min-h-screen">
       <strong className="text-2xl">Employees</strong>
-
       {/* TABS */}
       <div className="mt-10">
         <ul className="flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400">
@@ -61,7 +60,6 @@ const Employees = () => {
           </li>
         </ul>
       </div>
-
       {/* Add Employees */}
       <div className={activeTab === "addEmployee" ? "" : "hidden"}>
         <h1 className="text-primary mt-5 mb-2 font-bold uppercase text-xs">
@@ -100,7 +98,6 @@ const Employees = () => {
           <Button>Save</Button>
         </div>
       </div>
-
       {/* View Employees */}
       <div
         className={
@@ -138,7 +135,6 @@ const Employees = () => {
           </div>
         </div>
       </div>
-
       {/* Chat Flow */}
       <div
         className={
@@ -176,13 +172,44 @@ const Employees = () => {
           </div>
         </div>
       </div>
-
+      {/* Set Flow Popup */}
       {/* Set Flow Popup */}
       {isSetFlowPopupVisible && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50">
-          <div className="bg-white p-8 rounded-md">
-            <p>Set Flow Popup Content</p>
-            <Button onClick={closeSetFlowPopup}>Close</Button>
+          <div className="bg-white p-8 rounded-md flex flex-col items-center">
+            {/* Image, Username, ID, and Done button in a row */}
+            <div className="flex items-center mb-3">
+              {/* 1. Profile Picture */}
+              <div className="mr-3 h-[60px]">
+                <img
+                  className="rounded-full border border-black"
+                  width={60}
+                  height={60}
+                  src="URL_TO_PROFILE_PICTURE"
+                  alt="profile pic"
+                />
+              </div>
+
+              {/* 2. Username */}
+              <div className="mr-3">
+                <strong>Username</strong>
+              </div>
+
+              {/* 3. ID */}
+              <div className="mr-3">
+                <strong>ID</strong>
+              </div>
+
+              {/* 4. Done button */}
+              <div>
+                <Button onClick={handleSetFlowButtonClick}>Assign</Button>
+              </div>
+            </div>
+
+            {/* Close button separately below */}
+            <Button onClick={closeSetFlowPopup} className="mt-3">
+              Close
+            </Button>
           </div>
         </div>
       )}
