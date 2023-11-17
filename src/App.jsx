@@ -13,6 +13,7 @@ import Navbar from "./components/Navbar";
 import Loader from "./components/utils/Loader";
 import Settings from "./pages/Settings";
 import Employees from "./pages/Employees";
+import Chat from "./pages/Chat";
 
 const routes = [
   {
@@ -26,6 +27,9 @@ const routes = [
   {
     path: "/employees", 
     element: <Employees/>
+  }, {
+    path: "/chat", 
+    element: <Chat/>
   }
 ];
 

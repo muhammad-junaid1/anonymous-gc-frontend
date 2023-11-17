@@ -3,6 +3,7 @@ import SidebarItem from "./sidebar/SidebarItem";
 import {FiSettings} from "react-icons/fi";
 import {RiDashboardFill} from "react-icons/ri";
 import { useLocation } from "react-router";
+import { MdOutlineChatBubbleOutline, MdChatBubble } from "react-icons/md";
 
 const sidebarItems = [
   {
@@ -22,6 +23,12 @@ const sidebarItems = [
     link: "/employees", 
     icon: <MdOutlinePeople  size={16}/>, 
     activeIcon: <MdPeople  className="text-primary" size={16}/>
+  },
+  {
+    text: "Chat", 
+    link: "/chat", 
+    icon: <MdOutlineChatBubbleOutline  size={16}/>, 
+    activeIcon: <MdChatBubble  className="text-primary" size={16}/>
   },
 ];
 

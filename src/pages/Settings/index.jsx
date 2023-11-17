@@ -139,7 +139,7 @@ const Settings = () => {
   }, [values]);
 
   return (
-    <div className="p-5 rounded min-h-screen">
+    <div className="px-8 py-5 rounded min-h-screen">
       <strong className="text-2xl">Settings</strong>
 
       <div className="mt-8">
@@ -182,9 +182,11 @@ const Settings = () => {
 
         <div className="mt-2">
           <Button
+          
             onClick={handleSubmit}
             props={{
               disabled: isDisabled,
+              className: "w-3/12"
             }}
           >
             {saveBtnLoading ? (
@@ -230,6 +232,7 @@ const Settings = () => {
             onClick={handleChangePassword}
             props={{
               disabled: !newPassword,
+              className: "w-3/12"
             }}
           >
             {changePwdBtnLoading ? (

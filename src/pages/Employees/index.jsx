@@ -14,9 +14,9 @@ const Employees = () => {
   };
 
   return (
-    <div className="p-5 rounded min-h-screen">
+    <div className="px-8 py-5 rounded min-h-screen">
       <strong className="text-2xl">Employees</strong>
-      {/* TABS */}
+
       <div className="mt-10">
         <ul className="flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400">
           <li className="me-2">
