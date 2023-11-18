@@ -47,8 +47,6 @@ button:disabled{
 }
 
 .image-container {
-  width: 100px; 
-  height: 100px;
   overflow: hidden;
   border-radius: 50%;
 }

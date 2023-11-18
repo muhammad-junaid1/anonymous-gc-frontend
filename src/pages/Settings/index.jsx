@@ -143,15 +143,12 @@ const Settings = () => {
       <strong className="text-2xl">Settings</strong>
 
       <div className="mt-8">
-        <h1 className="text-primary mb-2 font-bold uppercase text-xs">
-          Profile pic
-        </h1>
         {loading ? (
           <div className="mb-2">
             <CircularProgress size={24} color="success" />
           </div>
         ) : (
-          <div className="mb-3 image-container">
+          <div className="mb-3 image-container w-[100px] h-[100px]">
             <img
               className="round-image"
               width={100}
@@ -182,11 +179,10 @@ const Settings = () => {
 
         <div className="mt-2">
           <Button
-          
             onClick={handleSubmit}
             props={{
               disabled: isDisabled,
-              className: "w-3/12"
+              className: "w-3/12",
             }}
           >
             {saveBtnLoading ? (
@@ -232,7 +228,7 @@ const Settings = () => {
             onClick={handleChangePassword}
             props={{
               disabled: !newPassword,
-              className: "w-3/12"
+              className: "w-3/12",
             }}
           >
             {changePwdBtnLoading ? (
