@@ -16,7 +16,7 @@ const ChatFlow = ({ activeTab }) => {
       <div
         className={
           activeTab === "setFlow"
-            ? "h-[70px] mt-5 bg-gray-700 max-w-full rounded-md flex"
+            ? "h-[70px] mt-5 slideDown bg-gray-700 max-w-full rounded-md flex"
             : "hidden"
         }
       >

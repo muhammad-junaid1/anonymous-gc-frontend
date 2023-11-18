@@ -115,7 +115,7 @@ const AddEmployee = ({ activeTab, setActiveTab}) => {
     <form
       onSubmit={handleSubmit}
       action=""
-      className={activeTab === "addEmployee" ? "" : "hidden"}
+      className={activeTab === "addEmployee" ? "slideDown" : "hidden"}
     >
       <h1 className="text-primary mt-5 mb-2 font-bold uppercase text-xs">
         Profile pic
@@ -178,7 +178,7 @@ const AddEmployee = ({ activeTab, setActiveTab}) => {
       </div>
 
       <div className="mt-4">
-        <Button props={{ className: "w-3/12", type: "submit" }}>
+        <Button props={{ className: "w-3/12", type: "submit", disabled: btnLoading }}>
           {btnLoading ? (
             <CircularProgress size={18} style={{ color: "white" }} />
           ) : (

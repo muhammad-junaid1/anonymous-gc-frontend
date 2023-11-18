@@ -30,3 +30,18 @@
   40% { box-shadow: 0 2.5em 0 0 }
 }
     
+
+  .slideDown {
+    animation: fade .5s ease forwards;
+    opacity: 0; 
+  }
+  
+  @keyframes fade{
+    from {
+      transform: translateY(-25px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }

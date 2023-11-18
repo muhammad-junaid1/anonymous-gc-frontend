@@ -13,12 +13,6 @@ const sidebarItems = [
     activeIcon: <RiDashboardFill className="text-primary" size={16}/>
   }, 
   {
-    text: "Settings", 
-    link: "/settings", 
-    icon: <FiSettings size={16}/>, 
-    activeIcon: <MdSettings className="text-primary" size={16}/>
-  },
-  {
     text: "Employees", 
     link: "/employees", 
     icon: <MdOutlinePeople  size={16}/>, 
@@ -29,6 +23,12 @@ const sidebarItems = [
     link: "/chat", 
     icon: <MdOutlineChatBubbleOutline  size={16}/>, 
     activeIcon: <MdChatBubble  className="text-primary" size={16}/>
+  },
+  {
+    text: "Settings", 
+    link: "/settings", 
+    icon: <FiSettings size={16}/>, 
+    activeIcon: <MdSettings className="text-primary" size={16}/>
   },
 ];
 

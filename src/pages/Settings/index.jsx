@@ -1,5 +1,5 @@
 import Button from "../../components/Button";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useStateContext } from "../../ContextProvider";
 import Avatar from "../../assets/user.png";
 import { toast } from "react-toastify";
@@ -22,6 +22,7 @@ const Settings = () => {
     file: null,
   });
   const [showPassword, setShowPassword] = useState(false);
+  const fileInputRef = useRef();
 
   const handleInput = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
@@ -53,6 +54,7 @@ const Settings = () => {
           progress: undefined,
           theme: "light",
         });
+        fileInputRef.current.value = "";
         setSelectedImage({
           url: e.target.result,
           file,
@@ -159,7 +161,7 @@ const Settings = () => {
           </div>
         )}
 
-        <input onInput={handleUpload} type="file" />
+        <input onInput={handleUpload} ref={fileInputRef} type="file" />
       </div>
       <div className="mt-8">
         <h1 className="text-primary mb-2 font-bold uppercase text-xs">
