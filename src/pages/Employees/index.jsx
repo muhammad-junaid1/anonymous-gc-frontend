@@ -49,7 +49,7 @@ const Employees = () => {
               }
               onClick={() => setActiveTab("setFlow")}
             >
-              Chat Flow
+              Chat Flows
             </a>
           </li>
         </ul>

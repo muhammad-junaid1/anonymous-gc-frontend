@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import Button from "../../components/Button";
+import Button from "../../components/Button.jsx";
 import { FaRandom } from "react-icons/fa";
 import axios from "../../axiosConfig.js";
 import { toast } from "react-toastify";

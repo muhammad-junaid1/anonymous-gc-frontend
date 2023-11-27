@@ -7,7 +7,7 @@ import {
   CircularProgress,
 } from "@mui/material";
 import { IoMdClose } from "react-icons/io";
-import Button from "../../components/Button";
+import Button from "../Button";
 import { toast } from "react-toastify";
 import axios from "../../axiosConfig";
 

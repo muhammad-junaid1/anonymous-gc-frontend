@@ -3,12 +3,13 @@ import axios from "../../axiosConfig";
 import { toast } from "react-toastify";
 import { useEffect, useRef, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { IconButton } from "@mui/material";
+import { CircularProgress, IconButton } from "@mui/material";
 import { FiEdit } from "react-icons/fi";
 import { FaTrashAlt } from "react-icons/fa";
 import NothingHere from "../../assets/nothing_here.png";
-import DeleteUserModal from "./DeleteUserModal";
-import UpdateUserModal from "./UpdateUserModal";
+import DeleteUserModal from "../../components/employees/DeleteUserModal";
+import UpdateUserModal from "../../components/employees/UpdateUserModal";
+import Loader from "../../components/utils/Loader";
 
 const ViewEmployees = ({ activeTab }) => {
   const [users, setUsers] = useState([]);
@@ -157,7 +158,7 @@ const ViewEmployees = ({ activeTab }) => {
   return (
     <>
       <div className={activeTab === "viewEmployee" ? "mt-5" : "hidden"}>
-        {!loading && [
+        {!loading ? [
           users?.length === 0 ? (
             <div className="flex slideDown items-center relative flex-col">
               <img src={NothingHere} width={400} alt="" />
@@ -194,7 +195,7 @@ const ViewEmployees = ({ activeTab }) => {
               }}
             />
           ),
-        ]}
+        ] : <Loader color="black" />}
       </div>
 
       <DeleteUserModal

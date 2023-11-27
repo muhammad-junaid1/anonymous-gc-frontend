@@ -1,8 +1,12 @@
 import { useState } from "react";
 import Button from "../../components/Button";
+import { FaPlus } from "react-icons/fa";
+import CreateFlowModal from "../../components/chatflow/CreateFlowModal";
+import UserCard from "../../components/UserCard";
 
 const ChatFlow = ({ activeTab }) => {
   const [isSetFlowPopupVisible, setSetFlowPopupVisibility] = useState(false);
+  const [createFlowModal, setCreateFlowModal] = useState({ isOpen: false });
 
   const handleSetFlowButtonClick = () => {
     setSetFlowPopupVisibility(true);
@@ -14,36 +18,22 @@ const ChatFlow = ({ activeTab }) => {
   return (
     <>
       <div
-        className={
-          activeTab === "setFlow"
-            ? "h-[70px] mt-5 slideDown bg-gray-700 max-w-full rounded-md flex"
-            : "hidden"
-        }
+        className={activeTab === "setFlow" ? "slideDown max-w-full" : "hidden"}
       >
-        {/* 1 */}
-        <div className="w-1/5 bg-gray-300 p-4">
-          <div className="mb-3 h-[60px] image-container">
-            <img
-              className="round-image stroke-black"
-              width={60}
-              height={60}
-              alt="profile pic"
-            />
-          </div>
+        <div className="mt-5">
+          <Button onClick={() => setCreateFlowModal({ isOpen: true })}>
+            <div className="flex items-center">
+              <FaPlus size={16} className="mr-1" />
+              Create Flow
+            </div>
+          </Button>
         </div>
-        {/* 2 */}
-        <div className="w-1/5 bg-gray-300 p-4">
-          <strong>Username</strong>
-        </div>
-        {/* 3 */}
-        <div className="w-1/5 bg-gray-300 p-4">
-          <strong>ID</strong>
-        </div>
-        {/* 4 */}
-        <div className="w-2/5 bg-gray-300 p-4 flex flex-col">
-          <div className=" ml-auto">
-            <Button onClick={handleSetFlowButtonClick}>Set Flow</Button>
-          </div>
+        <div className="mt-5 flex flex-wrap items-center gap-4">
+          <UserCard data={{
+            displayName: "Ubaid", 
+            profile_picture: "http://localhost:5000/images/6548dad94b2200313936be41_Screenshot2023-11-17153915.png",
+            username: "ubaid123"
+          }}/>
         </div>
       </div>
 
@@ -87,6 +77,11 @@ const ChatFlow = ({ activeTab }) => {
           </div>
         </div>
       )}
+
+      <CreateFlowModal
+        createFlowModal={createFlowModal}
+        handleClose={() => setCreateFlowModal({ isOpen: false })}
+      />
     </>
   );
 };

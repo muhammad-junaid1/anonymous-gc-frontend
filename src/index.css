@@ -46,6 +46,11 @@ button:disabled{
   background-color: var(--primary-color);
 }
 
+.border-primary {
+  border-style: solid;
+  border-color: var(--primary-color);
+}
+
 .image-container {
   overflow: hidden;
   border-radius: 50%;
