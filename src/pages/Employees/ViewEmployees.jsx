@@ -1,4 +1,3 @@
-import Button from "../../components/Button";
 import UserAvatar from "../../assets/user.png";
 import axios from "../../axiosConfig";
 import { toast } from "react-toastify";
@@ -9,6 +8,7 @@ import { FiEdit } from "react-icons/fi";
 import { FaTrashAlt } from "react-icons/fa";
 import NothingHere from "../../assets/nothing_here.png";
 import DeleteUserModal from "./DeleteUserModal";
+import UpdateUserModal from "./UpdateUserModal";
 
 const ViewEmployees = ({ activeTab }) => {
   const [users, setUsers] = useState([]);
@@ -16,6 +16,10 @@ const ViewEmployees = ({ activeTab }) => {
   const [deleteUserModal, setDeleteUserModal] = useState({
     isOpen: false,
     userID: null,
+  });
+  const [updateUserModal, setUpdateUserModal] = useState({
+    isOpen: false,
+    data: null,
   });
 
   const selectionModelRef = useRef();
@@ -93,7 +97,10 @@ const ViewEmployees = ({ activeTab }) => {
       renderCell: (cellValues) => {
         return (
           <div className="flex items-center">
-            <IconButton>
+            <IconButton onClick={() => setUpdateUserModal({
+              isOpen: true, 
+              data: cellValues?.row
+            })}>
               <FiEdit style={{ color: "#006cff" }} size={18} />
             </IconButton>
             <IconButton
@@ -161,7 +168,6 @@ const ViewEmployees = ({ activeTab }) => {
               className="slideDown"
               disableSelectionOnClick={true}
               rows={users}
-              onRowClick={(e) => e.preventDefault()}
               loading={loading}
               width="auto"
               checkboxSelection
@@ -195,6 +201,11 @@ const ViewEmployees = ({ activeTab }) => {
         fetchUsers={fetchUsers}
         deleteUserModal={deleteUserModal}
         handleClose={() => setDeleteUserModal({ isOpen: false })}
+      />
+      <UpdateUserModal
+        fetchUsers={fetchUsers}
+        updateUserModal={updateUserModal}
+        handleClose={() => setUpdateUserModal({ isOpen: false })}
       />
     </>
   );

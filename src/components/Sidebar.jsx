@@ -4,8 +4,10 @@ import {FiSettings} from "react-icons/fi";
 import {RiDashboardFill} from "react-icons/ri";
 import { useLocation } from "react-router";
 import { MdOutlineChatBubbleOutline, MdChatBubble } from "react-icons/md";
+import { useStateContext } from "../ContextProvider";
+import { useEffect, useState } from "react";
 
-const sidebarItems = [
+const allSidebarItems = [
   {
     text: "Dashboard", 
     link: "/dashboard", 
@@ -15,6 +17,7 @@ const sidebarItems = [
   {
     text: "Employees", 
     link: "/employees", 
+    isAdmin: true,
     icon: <MdOutlinePeople  size={16}/>, 
     activeIcon: <MdPeople  className="text-primary" size={16}/>
   },
@@ -27,6 +30,7 @@ const sidebarItems = [
   {
     text: "Settings", 
     link: "/settings", 
+    isAdmin: true,
     icon: <FiSettings size={16}/>, 
     activeIcon: <MdSettings className="text-primary" size={16}/>
   },
@@ -34,6 +38,14 @@ const sidebarItems = [
 
 const Sidebar = () => {
   const location = useLocation();
+  const [sidebarItems, setSidebarItems] = useState([]);
+  const {User} = useStateContext();
+
+  useEffect(() => {
+    if(User) {
+      setSidebarItems(User?.role === 1 ? allSidebarItems : allSidebarItems?.filter(item => !item?.isAdmin));
+    }
+  }, [User]);
   return (
     <div className="sticky pt-[4.5rem] shadow top-0 w-[200px] h-screen">
       {sidebarItems?.map((item) => {

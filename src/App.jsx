@@ -15,18 +15,20 @@ import Settings from "./pages/Settings";
 import Employees from "./pages/Employees";
 import Chat from "./pages/Chat";
 
-const routes = [
+const allRoutes = [
   {
     path: "/dashboard",
     element: <Dashboard />,
   },
   {
     path: "/settings", 
-    element: <Settings/>
+    element: <Settings/>, 
+    isAdmin: true
   }, 
   {
     path: "/employees", 
-    element: <Employees/>
+    element: <Employees/>,
+    isAdmin: true
   }, {
     path: "/chat", 
     element: <Chat/>
@@ -36,12 +38,14 @@ const routes = [
 function App() {
   const token = localStorage.getItem("auth-token");
   const location = useLocation();
+  const [routes, setRoutes] = useState([]);
   const [loading, setLoading] = useState(true);
   const { setUser } = useStateContext();
 
   const fetchProfile = async () => {
     try {
       const response = await axios.get("/profile");
+      setRoutes(response.data?.data?.role === 1 ? allRoutes : allRoutes?.filter((route) => !route?.isAdmin));
       setUser(response.data?.data);
       setLoading(false);
     } catch (error) {
@@ -95,7 +99,7 @@ function App() {
           {showNavbarSidebar() && !loading && <Navbar />}
           <Routes>
             <Route path="/" element={<Auth />} />
-            {routes?.map((route) => (
+            {routes?.length > 0 && routes?.map((route) => (
               <Route
                 key={route?.path}
                 path={route?.path}
@@ -104,7 +108,7 @@ function App() {
                 }
               />
             ))}
-            <Route path="*" element={<h1>404 Error</h1>} />
+            <Route path="*" element={loading ? <Loader color="black" /> : <h1>404 Error</h1>} />
           </Routes>
         </main>
       </div>
