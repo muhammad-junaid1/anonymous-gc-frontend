@@ -29,7 +29,8 @@ const ChatFlow = ({ activeTab }) => {
           </Button>
         </div>
         <div className="mt-5 flex flex-wrap items-center gap-4">
-          <UserCard data={{
+          <UserCard width={30} data={{
+            
             displayName: "Ubaid", 
             profile_picture: "http://localhost:5000/images/6548dad94b2200313936be41_Screenshot2023-11-17153915.png",
             username: "ubaid123"
