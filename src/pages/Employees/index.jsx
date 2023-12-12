@@ -9,6 +9,7 @@ const Employees = () => {
   return (
     <div className="px-8 py-5 rounded min-h-screen">
       <strong className="text-2xl">Employees</strong>
+      <p className="text-slate-500 text-sm">Manage all of your Employees in a single page!</p>
 
       <div className="mt-10">
         <ul className="flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-300 ">
