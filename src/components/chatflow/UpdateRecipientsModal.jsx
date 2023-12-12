@@ -7,7 +7,7 @@ const style = {
   boxShadow: 24,
 };
 
-const UpdateRecipientsModal = ({ recipientsModal = {}, handleClose, fetchFlows, selectedEmployee }) => {
+const UpdateRecipientsModal = ({ recipientsModal = {}, flow, handleClose, fetchFlows, selectedEmployee }) => {
 
   return (
 
@@ -39,7 +39,7 @@ const UpdateRecipientsModal = ({ recipientsModal = {}, handleClose, fetchFlows, 
           <IoMdClose size={18} />
         </IconButton>
 
-        <Step2 updateRecipients fetchFlows={fetchFlows} handleClose={handleClose} selectedEmployee={selectedEmployee}/>
+        <Step2 flow={flow} updateRecipients fetchFlows={fetchFlows} handleClose={handleClose} selectedEmployee={selectedEmployee}/>
 
       </div>
     </Modal>

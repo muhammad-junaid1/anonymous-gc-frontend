@@ -62,7 +62,7 @@ const ChatFlow = ({ activeTab }) => {
           {flows?.map((flow) => (
             <UserCard
               onClick={() =>
-                setRecipientsModal({ open: true, employee: flow?.user })
+                setRecipientsModal({ open: true, flow })
               }
               key={flow?._id}
               width={30}
@@ -89,8 +89,9 @@ const ChatFlow = ({ activeTab }) => {
         <UpdateRecipientsModal
           recipientsModal={recipientsModal}
           fetchFlows={fetchFlows}
+          flow={recipientsModal?.flow}
           handleClose={() => setRecipientsModal({ open: false })}
-          selectedEmployee={recipientsModal?.employee}
+          selectedEmployee={recipientsModal?.flow?.user}
         />
       )}
     </>

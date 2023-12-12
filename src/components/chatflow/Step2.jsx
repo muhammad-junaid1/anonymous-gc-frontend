@@ -11,6 +11,7 @@ import { CircularProgress } from "@mui/material";
 const Step2 = ({
   selectedEmployee,
   handleClose,
+  flow,
   fetchFlows,
   updateRecipients = false,
 }) => {
@@ -145,20 +146,62 @@ const Step2 = ({
     }
     setBtnLoading(false);
   };
+  const updateFlow = async () => {
+    try {
+      setBtnLoading(true);
+      const response = await axios.post(
+        "/flows/" + flow?._id,
+        JSON.stringify({
+          recipients: selectedRows?.map((row) => row?._id),
+        })
+      );
+
+      toast.success(response?.data?.message, {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      fetchFlows();
+      handleClose();
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+    setBtnLoading(false);
+  };
 
   useEffect(() => {
     fetchUsers();
   }, [selectedEmployee]);
 
   useEffect(() => {
-    if(updateRecipients) {
-      
+    if (updateRecipients) {
       if (users.length > 0) {
-        setSelectedRows([users[0]]);
-        selectionModelRef.current = [1];
+        let indexes = []; 
+        users?.forEach((user, index) => {
+          if(flow?.recipients?.includes(user?._id)) {
+            indexes.push(index + 1);
+          }
+        })
+        setSelectedRows(indexes?.map((index) => users[index - 1]));
+        selectionModelRef.current = indexes;
       }
     }
-  }, [users]);
+  }, [users, selectedEmployee]);
   return (
     <>
       <div>
@@ -181,7 +224,9 @@ const Step2 = ({
                 </h1>
                 {selectedRows?.length > 0 && (
                   <div className="flex items-center justify-center">
-                    <Button onClick={createFlow}>
+                    <Button
+                      onClick={updateRecipients ? updateFlow : createFlow}
+                    >
                       {btnLoading ? (
                         <CircularProgress
                           size={18}
