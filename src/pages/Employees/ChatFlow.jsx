@@ -1,20 +1,42 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../../components/Button";
 import { FaPlus } from "react-icons/fa";
 import CreateFlowModal from "../../components/chatflow/CreateFlowModal";
 import UserCard from "../../components/UserCard";
+import axios from "../../axiosConfig";
+import { toast } from "react-toastify";
 
 const ChatFlow = ({ activeTab }) => {
-  const [isSetFlowPopupVisible, setSetFlowPopupVisibility] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [flows, setFlows] = useState([]);
   const [createFlowModal, setCreateFlowModal] = useState({ isOpen: false });
 
-  const handleSetFlowButtonClick = () => {
-    setSetFlowPopupVisibility(true);
+  const fetchFlows = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get("/flows");
+      const flows = response?.data?.data;
+      setFlows(flows);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
   };
 
-  const closeSetFlowPopup = () => {
-    setSetFlowPopupVisibility(false);
-  };
+  useEffect (() => {
+    fetchFlows();
+  }, []);
+
   return (
     <>
       <div
@@ -29,60 +51,26 @@ const ChatFlow = ({ activeTab }) => {
           </Button>
         </div>
         <div className="mt-5 flex flex-wrap items-center gap-4">
-          <UserCard width={30} data={{
-            
-            displayName: "Ubaid", 
-            profile_picture: "http://localhost:5000/images/6548dad94b2200313936be41_Screenshot2023-11-17153915.png",
-            username: "ubaid123"
-          }}/>
+        {flows?.map((flow) => <UserCard key={flow?._id}
+            width={30}
+            data={{
+              displayName: "Ubaid",
+              profile_picture:
+                "http://localhost:5000/images/6548dad94b2200313936be41_Screenshot2023-11-17153915.png",
+              username: "ubaid123",
+            }}
+          />)}
+          
         </div>
       </div>
 
-      {/* Set Flow Popup */}
-      {isSetFlowPopupVisible && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50">
-          <div className="bg-white p-8 rounded-md flex flex-col items-center">
-            {/* Image, Username, ID, and Done button in a row */}
-            <div className="flex items-center mb-3">
-              {/* 1. Profile Picture */}
-              <div className="mr-3 h-[60px]">
-                <img
-                  className="rounded-full border border-black"
-                  width={60}
-                  height={60}
-                  src="URL_TO_PROFILE_PICTURE"
-                  alt="profile pic"
-                />
-              </div>
-
-              {/* 2. Username */}
-              <div className="mr-3">
-                <strong>Username</strong>
-              </div>
-
-              {/* 3. ID */}
-              <div className="mr-3">
-                <strong>ID</strong>
-              </div>
-
-              {/* 4. Done button */}
-              <div>
-                <Button onClick={handleSetFlowButtonClick}>Assign</Button>
-              </div>
-            </div>
-
-            {/* Close button separately below */}
-            <Button onClick={closeSetFlowPopup} className="mt-3">
-              Close
-            </Button>
-          </div>
-        </div>
+      {createFlowModal?.isOpen && (
+        <CreateFlowModal
+        fetchFlows={fetchFlows}
+          createFlowModal={createFlowModal}
+          handleClose={() => setCreateFlowModal({ isOpen: false })}
+        />
       )}
-
-      <CreateFlowModal
-        createFlowModal={createFlowModal}
-        handleClose={() => setCreateFlowModal({ isOpen: false })}
-      />
     </>
   );
 };

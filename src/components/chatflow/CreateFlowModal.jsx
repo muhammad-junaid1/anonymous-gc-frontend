@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Modal, Backdrop, IconButton } from "@mui/material";
 import { IoMdClose } from "react-icons/io";
 import Step1 from "./Step1";
@@ -9,7 +9,7 @@ const style = {
   boxShadow: 24,
 };
 
-const CreateFlowModal = ({ createFlowModal = {}, handleClose }) => {
+const CreateFlowModal = ({ createFlowModal = {}, handleClose, fetchFlows }) => {
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [step, setStep] = useState(1);
 
@@ -22,10 +22,19 @@ const CreateFlowModal = ({ createFlowModal = {}, handleClose }) => {
       />
     ),
     2: () => (
-      <Step2 selectedEmployee={selectedEmployee} setStep={setStep}/>
+      <Step2 fetchFlows={fetchFlows} selectedEmployee={selectedEmployee} handleClose={handleClose}/>
     )
   };
+
+
+  useEffect(() => {
+    setStep(1);
+    return () => {
+      setStep(1);
+    }
+  }, []);
   return (
+
     <Modal
       keepMounted
       open={createFlowModal?.isOpen}

@@ -152,9 +152,6 @@ const ViewEmployees = ({ activeTab }) => {
   useEffect(() => {
     fetchUsers();
   }, [activeTab]);
-  // if(loading){
-  //   return <div className="flex justify-center items-center h-[50vh]"><CircularProgress size={24} style={{color: "black"}}/></div>;
-  // }
   return (
     <>
       <div className={activeTab === "viewEmployee" ? "mt-5" : "hidden"}>
