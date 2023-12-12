@@ -33,6 +33,10 @@ button:disabled{
   color: grey !important;
 }
 
+input:focus, input:active {
+  outline: none; 
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
