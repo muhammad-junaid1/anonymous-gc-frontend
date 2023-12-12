@@ -5,10 +5,14 @@ import CreateFlowModal from "../../components/chatflow/CreateFlowModal";
 import UserCard from "../../components/UserCard";
 import axios from "../../axiosConfig";
 import { toast } from "react-toastify";
+import Step2 from "../../components/chatflow/Step2";
+import UpdateRecipientsModal from "../../components/chatflow/UpdateRecipientsModal";
+import Loader from "../../components/utils/Loader";
 
 const ChatFlow = ({ activeTab }) => {
   const [loading, setLoading] = useState(true);
   const [flows, setFlows] = useState([]);
+  const [recipientsModal, setRecipientsModal] = useState({ open: false });
   const [createFlowModal, setCreateFlowModal] = useState({ isOpen: false });
 
   const fetchFlows = async () => {
@@ -33,10 +37,14 @@ const ChatFlow = ({ activeTab }) => {
     }
   };
 
-  useEffect (() => {
-    fetchFlows();
-  }, []);
-
+  useEffect(() => {
+    if (activeTab === "setFlow") {
+      fetchFlows();
+    }
+  }, [activeTab]);
+  if (loading) {
+    return <Loader color="black" />;
+  }
   return (
     <>
       <div
@@ -51,24 +59,38 @@ const ChatFlow = ({ activeTab }) => {
           </Button>
         </div>
         <div className="mt-5 flex flex-wrap items-center gap-4">
-        {flows?.map((flow) => <UserCard key={flow?._id}
-            width={30}
-            data={{
-              displayName: "Ubaid",
-              profile_picture:
-                "http://localhost:5000/images/6548dad94b2200313936be41_Screenshot2023-11-17153915.png",
-              username: "ubaid123",
-            }}
-          />)}
-          
+          {flows?.map((flow) => (
+            <UserCard
+              onClick={() =>
+                setRecipientsModal({ open: true, employee: flow?.user })
+              }
+              key={flow?._id}
+              width={30}
+              data={{
+                displayName: flow?.user?.displayName,
+                profile_picture: flow?.user?.profile_picture,
+                username: flow?.user?.username,
+                recipients: flow?.recipients?.length + " recipient(s)",
+              }}
+            />
+          ))}
         </div>
       </div>
 
       {createFlowModal?.isOpen && (
         <CreateFlowModal
-        fetchFlows={fetchFlows}
+          fetchFlows={fetchFlows}
           createFlowModal={createFlowModal}
           handleClose={() => setCreateFlowModal({ isOpen: false })}
+        />
+      )}
+
+      {recipientsModal?.open && (
+        <UpdateRecipientsModal
+          recipientsModal={recipientsModal}
+          fetchFlows={fetchFlows}
+          handleClose={() => setRecipientsModal({ open: false })}
+          selectedEmployee={recipientsModal?.employee}
         />
       )}
     </>
