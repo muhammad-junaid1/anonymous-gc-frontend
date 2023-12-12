@@ -191,12 +191,12 @@ const Step2 = ({
   useEffect(() => {
     if (updateRecipients) {
       if (users.length > 0) {
-        let indexes = []; 
+        let indexes = [];
         users?.forEach((user, index) => {
-          if(flow?.recipients?.includes(user?._id)) {
+          if (flow?.recipients?.includes(user?._id)) {
             indexes.push(index + 1);
           }
-        })
+        });
         setSelectedRows(indexes?.map((index) => users[index - 1]));
         selectionModelRef.current = indexes;
       }
