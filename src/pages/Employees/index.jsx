@@ -6,7 +6,6 @@ import ChatFlow from "./ChatFlow";
 const Employees = () => {
   const [activeTab, setActiveTab] = useState("viewEmployee");
 
-
   return (
     <div className="px-8 py-5 rounded min-h-screen">
       <strong className="text-2xl">Employees</strong>
@@ -55,12 +54,13 @@ const Employees = () => {
         </ul>
       </div>
       {/* Add Employees */}
-      <AddEmployee setActiveTab={setActiveTab} activeTab={activeTab}/>
+      {activeTab === "addEmployee" && (
+        <AddEmployee setActiveTab={setActiveTab} activeTab={activeTab} />
+      )}
       {/* View Employees */}
-     <ViewEmployees activeTab={activeTab}/>
+      {activeTab === "viewEmployee" && <ViewEmployees activeTab={activeTab} />}
       {/* Chat Flow */}
-      <ChatFlow activeTab={activeTab}/>
-    
+      {activeTab === "setFlow" && <ChatFlow activeTab={activeTab} />}
     </div>
   );
 };

@@ -151,9 +151,12 @@ const Step2 = ({
   }, [selectedEmployee]);
 
   useEffect(() => {
-    if (users.length > 0) {
-      setSelectedRows([users[0]]);
-      selectionModelRef.current = [1];
+    if(updateRecipients) {
+      
+      if (users.length > 0) {
+        setSelectedRows([users[0]]);
+        selectionModelRef.current = [1];
+      }
     }
   }, [users]);
   return (

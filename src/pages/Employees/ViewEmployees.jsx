@@ -147,10 +147,13 @@ const ViewEmployees = ({ activeTab }) => {
         theme: "light",
       });
     }
+    setLoading(false);
   };
 
   useEffect(() => {
-    fetchUsers();
+    if(activeTab === "viewEmployee"){
+      fetchUsers();
+    }
   }, [activeTab]);
   return (
     <>
