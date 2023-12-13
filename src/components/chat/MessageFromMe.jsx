@@ -5,7 +5,7 @@ const MessageFromMe = () => {
     <div className="rounded-md relative mb-2 flex pl-2 pr-1 w-max self-end flex-col bg-[#007AFF] text-white ">
       <div className="flex mt-1 items-center justify-between">
         <p className="mr-2">Yeah Sure.</p>
-        <RxCaretDown size={28} style={{ color: "white" }} />
+        <RxCaretDown className="cursor-pointer" size={28} style={{ color: "white" }} />
       </div>
       <span className="font-extralight text-sm m-0.5 self-end">11:52 PM</span>
 

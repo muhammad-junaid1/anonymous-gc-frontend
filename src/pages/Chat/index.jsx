@@ -82,6 +82,18 @@ const Chat = () => {
 
             <MessageFromMe/>
             <MessageFromOther/>
+            <MessageFromOther/>
+            <MessageFromMe/>
+            <MessageFromMe/>
+            <MessageFromMe/>
+            <MessageFromOther/>
+            <MessageFromOther/>
+            <MessageFromMe/>
+            <MessageFromMe/>
+            <MessageFromOther/>
+            <MessageFromMe/>
+            <MessageFromMe/>
+            <MessageFromMe/>
 
 
         </div>
