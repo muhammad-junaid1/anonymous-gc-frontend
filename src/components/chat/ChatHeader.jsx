@@ -4,9 +4,11 @@ import { BsThreeDots } from "react-icons/bs";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import axios from "../../axiosConfig";
+import { socket } from "../../App";
 
 const ChatHeader = () => {
       const [users, setUsers] = useState([]);
+      const [onlineUsers, setOnlineUsers] = useState(0);
   const navigate = useNavigate();
 
    const fetchUsers = async () => {
@@ -29,8 +31,37 @@ const ChatHeader = () => {
     }
   };
 
+   const fetchOnlineUsers = async () => {
+    try {
+      const response = await axios.get("/users?online=1");
+      const onlineUsers = response?.data?.data;
+      setOnlineUsers(onlineUsers);
+
+
+    if(socket) {
+      socket.on("chat_getOnlineUsers", (users) => {
+        setOnlineUsers(users?.length);
+      })
+    } 
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+  };
+
   useEffect(() => {
     fetchUsers();
+    fetchOnlineUsers();
+
   }, []);
     return   <div className="chat-header border-b border-gray-300 px-3 py-2 flex items-center justify-between">
         <div className="relative">
@@ -60,7 +91,7 @@ const ChatHeader = () => {
         <div className="flex flex-col items-center">
           <p className="font-extralight text-lg mb-1">Chat Group</p>
           <p className="text-sm font-bold">
-            2 <span className="text-green-500">Online</span>
+            {onlineUsers - 1} <span className="text-green-500">Online</span>
           </p>
         </div>
         <div>
