@@ -79,7 +79,13 @@ const ChatMessages = () => {
     }
   }, [messages]);
   return (
-    <div className="chat-body min-h-[0] flex-1">
+    <div className="chat-body pb-3 min-h-[0] flex-1" style={{
+      backgroundImage: "url(https://i.pinimg.com/600x315/8c/98/99/8c98994518b575bfd8c949e91d20548b.jpg)", 
+      backgroundPosition: "center", 
+      backgroundColor: "rgba(255, 255, 255, 0.7)", 
+      backgroundBlendMode: "overlay", 
+      backgroundRepeat: "repeat"
+    }}>
       <div
         ref={messagesContainerRef}
         className="overflow-y-scroll scroll-smooth pt-4 px-10 h-full flex flex-col"

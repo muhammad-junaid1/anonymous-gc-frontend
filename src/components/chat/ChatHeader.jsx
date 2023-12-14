@@ -63,7 +63,7 @@ const ChatHeader = () => {
     fetchOnlineUsers();
 
   }, []);
-    return   <div className="chat-header border-b border-gray-300 px-3 py-2 flex items-center justify-between">
+    return   <div className="chat-header shadow border-b border-gray-300 px-3 py-2 flex items-center justify-between">
         <div className="relative">
           {users?.slice(0, 6)?.map((user, index) => (
             <div

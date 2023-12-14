@@ -45,7 +45,7 @@ const Step1 = ({selectedEmployee, setSelectedEmployee, setStep}) => {
                 <UserCard
                 width={48}
                   onClick={() => setSelectedEmployee(emp)}
-                  className={selectedEmployee?._id === emp?._id && "border-2 bg-blue-100 border-primary"}
+                  className={selectedEmployee?._id === emp?._id ? "border-2 bg-blue-100 border-primary" : "mb-1"}
                   key={emp?._id}
                   data={emp}
                 />
