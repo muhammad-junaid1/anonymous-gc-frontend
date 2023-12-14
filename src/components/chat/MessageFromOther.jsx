@@ -1,8 +1,16 @@
-import { RxCaretDown } from "react-icons/rx";
 import moment from "moment";
 import { useStateContext } from "../../ContextProvider";
+import { useEffect, useState } from "react";
+import MessageMenu from "./MessageMenu";
 const MessageFromOther = ({ data }) => {
   const { User } = useStateContext();
+  const [doesHaveRecipients, setDoesHaveRecipients] = useState(false);
+  
+  useEffect(() => {
+    if(data?.recipients > 0){
+      setDoesHaveRecipients(true);
+    }
+  }, [data?.recipients]);
   return (
     <div className="flex items-center mb-2 ">
       <div className="image-container mr-3 self-start w-[40px] h-[40px]">
@@ -12,15 +20,11 @@ const MessageFromOther = ({ data }) => {
           alt=""
         />
       </div>
-      <div className="rounded-md relative flex pl-3 pr-1 w-max flex-col bg-[#3d3d3d] text-white ">
+      <div className={`rounded-md relative max-w-[550px] flex pl-3 pr-1 w-max flex-col ${doesHaveRecipients ? 'bg-[#00b300]' : 'bg-[#3d3d3d]'} text-white`}>
         <div className="flex mt-1 items-center justify-between">
           <strong>{data?.from?.displayName}</strong>
           {User?.role === 1 && (
-            <RxCaretDown
-              className="cursor-pointer"
-              size={28}
-              style={{ color: "white" }}
-            />
+            <MessageMenu/>
           )}
         </div>
         <div className="flex items-center justify-between">
@@ -40,7 +44,7 @@ const MessageFromOther = ({ data }) => {
         >
           <path
             d="M8.9999 0.5C8.9999 0.5 3.26197 0.5 1.79991 0.5C0.337859 0.5 -5.98431e-05 2 1.34994 3.5C2.69993 5 8.50054 10 8.9999 11.5C9.49927 13 8.9999 0.5 8.9999 0.5Z"
-            fill="#3d3d3d"
+            fill={doesHaveRecipients ? '#00b300' : '#3d3d3d'}
           />
         </svg>
       </div>

@@ -5,7 +5,7 @@ import { useStateContext } from "../../ContextProvider";
 const MessageFromMe = ({ data }) => {
   const {User} = useStateContext();
   return (
-    <div className="rounded-md relative mb-2 flex pl-3 pr-1 w-max self-end flex-col bg-[#007AFF] text-white ">
+    <div className="rounded-md relative max-w-[550px] mb-2 flex pl-3 pr-1 w-max self-end flex-col bg-[#007AFF] text-white ">
       <div className="flex mt-1 items-center justify-between">
         <p className="mr-2">{data?.content}</p>
         {User?.role === 1 &&

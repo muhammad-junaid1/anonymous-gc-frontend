@@ -2,6 +2,7 @@ import Button from "./Button";
 import { useStateContext } from "../ContextProvider";
 import { BiPowerOff } from "react-icons/bi";
 import Logo from "../assets/logo.png";
+import {FaCrown} from "react-icons/fa";
 
 const Navbar = () => {
   const { User } = useStateContext();
@@ -16,8 +17,8 @@ const Navbar = () => {
         <a href="/">
           <img alt="" className="mr-3" src={Logo} width={30} height={30} />
         </a>
-        <p>
-          Welcome <strong>{User?.displayName}</strong>
+        <p className="flex items-center">
+          Welcome <strong className="ml-1 mr-2">{User?.displayName}</strong> {User?.role === 1 && <FaCrown style={{color: "#FFD700"}} size={20}/>}
         </p>
       </div>
       <Button
