@@ -91,7 +91,7 @@ const ChatHeader = () => {
         <div className="flex flex-col items-center">
           <p className="font-extralight text-lg mb-1">Chat Group</p>
           <p className="text-sm font-bold">
-            {onlineUsers - 1} <span className="text-green-500">Online</span>
+            {onlineUsers ? onlineUsers - 1 : onlineUsers} <span className="text-green-500">Online</span>
           </p>
         </div>
         <div>

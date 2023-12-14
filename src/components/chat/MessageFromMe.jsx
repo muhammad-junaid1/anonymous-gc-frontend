@@ -1,20 +1,31 @@
 import { RxCaretDown } from "react-icons/rx";
 import moment from "moment";
 import { useStateContext } from "../../ContextProvider";
+import MessageMenu from "./MessageMenu";
+import { useState } from "react";
 
 const MessageFromMe = ({ data }) => {
-  const {User} = useStateContext();
+  const { User } = useStateContext();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const handleContextMenu = (e) => {
+    e.preventDefault();
+    setAnchorEl(e.currentTarget?.querySelector(".caret-down-icon"));
+  };
+
   return (
-    <div className="rounded-md relative max-w-[550px] mb-2 flex pl-3 pr-1 w-max self-end flex-col bg-[#007AFF] text-white ">
+    <div
+      onContextMenu={handleContextMenu}
+      className="rounded-md relative max-w-[550px] mb-2 flex pl-3 pr-1 w-max self-end flex-col bg-[#007AFF] text-white "
+    >
       <div className="flex mt-1 items-center justify-between">
         <p className="mr-2">{data?.content}</p>
-        {User?.role === 1 &&
-        <RxCaretDown
-          className="cursor-pointer"
-          size={28}
-          style={{ color: "white" }}
-        />
-        }
+        {User?.role === 1 && (
+          <MessageMenu
+            anchorEl={anchorEl}
+            setAnchorEl={setAnchorEl}
+            forMe={true}
+          />
+        )}
       </div>
       <span className="font-extralight text-sm m-0.5 self-end">
         {moment(data?.createdAt).format("hh:mm A")}
