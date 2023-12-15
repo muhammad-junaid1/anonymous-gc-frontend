@@ -88,7 +88,7 @@ const MessageFromOther = ({ messageData, noMenu = false }) => {
           </svg>
         </div>
 
-        {fromDetails ? <div className="bg-white z-[10000] rounded absolute shadow-lg -bottom-[60%] left-5 p-1">
+        {fromDetails ? <div className="bg-white z-[10000] rounded absolute shadow-lg -bottom-[68%] left-5 p-1">
             <UserCard data={data?.from}/>
           </div> : <></>}
       </div>
