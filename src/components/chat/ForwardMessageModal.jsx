@@ -18,7 +18,11 @@ const style = {
   boxShadow: 24,
 };
 
-const ForwardMessageModal = ({ forwardMessageModal = {}, setDoesHaveRecipients, handleClose }) => {
+const ForwardMessageModal = ({
+  forwardMessageModal = {},
+  setData,
+  handleClose,
+}) => {
   const [loading, setLoading] = useState(false);
   const [users, setUsers] = useState([]);
   const [btnLoading, setBtnLoading] = useState(false);
@@ -133,7 +137,7 @@ const ForwardMessageModal = ({ forwardMessageModal = {}, setDoesHaveRecipients, 
     try {
       setBtnLoading(true);
 
-      await axios.post(
+      const response = await axios.post(
         `/messages/${forwardMessageModal?.data?._id}`,
         JSON.stringify({
           recipients: selectedRows,
@@ -142,7 +146,7 @@ const ForwardMessageModal = ({ forwardMessageModal = {}, setDoesHaveRecipients, 
 
       setBtnLoading(false);
       handleClose();
-      setDoesHaveRecipients(true);
+      setData(() => ({...response?.data?.data}));
       toast.success("Recipients are updated successfuly", {
         position: "top-right",
         autoClose: 3000,
@@ -226,9 +230,9 @@ const ForwardMessageModal = ({ forwardMessageModal = {}, setDoesHaveRecipients, 
         </IconButton>
         {!loading && [
           forwardMessageModal?.forMe ? (
-            <MessageFromMe noMenu data={forwardMessageModal?.data} />
+            <MessageFromMe noMenu messageData={forwardMessageModal?.data} />
           ) : (
-            <MessageFromOther noMenu data={forwardMessageModal?.data} />
+            <MessageFromOther noMenu messageData={forwardMessageModal?.data} />
           ),
         ]}
 
@@ -257,20 +261,22 @@ const ForwardMessageModal = ({ forwardMessageModal = {}, setDoesHaveRecipients, 
                       <></>
                     )}
                   </div>
-                  {selectedRows?.length > 0 && (
-                    <div className="flex items-center justify-center">
-                      <Button onClick={handleUpdateRecipients}>
-                        {btnLoading ? (
-                          <CircularProgress
-                            size={18}
-                            style={{ color: "white" }}
-                          />
-                        ) : (
-                          <span>Assign the selected recipients</span>
-                        )}
-                      </Button>
-                    </div>
-                  )}
+                  <div className="flex items-center justify-center">
+                  {!(forwardMessageModal?.data?.recipients?.length) && !selectedRows?.length ? <></> :
+                    <Button onClick={handleUpdateRecipients}>
+                      {btnLoading ? (
+                        <CircularProgress
+                          size={18}
+                          style={{ color: "white" }}
+                        />
+                      ) : selectedRows?.length ? (
+                        <span>Assign the selected recipients</span>
+                      ) : (
+                        <span>Clear the recipients</span>
+                      )}
+                    </Button>
+                  }
+                  </div>
 
                   {flowRecipientsLoading ? (
                     <div className="flex mt-20 justify-center">

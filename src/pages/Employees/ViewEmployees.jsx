@@ -74,7 +74,7 @@ const ViewEmployees = ({ activeTab }) => {
       headerAlign: "center",
       flex: 1,
       renderCell: (cellValues) => {
-        return <p>{cellValues?.formattedValue}</p>;
+        return <p>@{cellValues?.formattedValue}</p>;
       },
     },
 
@@ -167,13 +167,13 @@ const ViewEmployees = ({ activeTab }) => {
           ) : (
             <DataGrid
               className="slideDown"
-              disableSelectionOnClick={true}
+              disableRowSelectionOnClick={true}
               rows={users}
               loading={loading}
               width="auto"
               checkboxSelection
-              selectionModel={selectionModelRef.current}
-              onSelectionModelChange={(ids) => {
+              rowSelectionModel={selectionModelRef.current}
+              onRowSelectionModelChange={(ids) => {
                 selectionModelRef.current = ids;
               }}
               columns={columns}

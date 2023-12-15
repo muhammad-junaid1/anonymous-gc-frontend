@@ -6,7 +6,7 @@ import { TiArrowForward } from "react-icons/ti";
 import { useState } from "react";
 import ForwardMessageModal from "./ForwardMessageModal";
 
-export default function MessageMenu({ forMe, setDoesHaveRecipients, anchorEl, setAnchorEl, data }) {
+export default function MessageMenu({ forMe, setData, anchorEl, setAnchorEl, data }) {
   const open = Boolean(anchorEl);
   const [forwardMessageModal, setForwardMessageModal] = useState({
     isOpen: false,
@@ -85,7 +85,7 @@ export default function MessageMenu({ forMe, setDoesHaveRecipients, anchorEl, se
 
       {forwardMessageModal?.isOpen && (
         <ForwardMessageModal
-          setDoesHaveRecipients={setDoesHaveRecipients}
+          setData={setData}
           forwardMessageModal={forwardMessageModal}
           handleClose={() => setForwardMessageModal({ isOpen: false })}
         />

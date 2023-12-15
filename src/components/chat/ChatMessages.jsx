@@ -88,7 +88,7 @@ const ChatMessages = () => {
     }}>
       <div
         ref={messagesContainerRef}
-        className="overflow-y-scroll scroll-smooth pt-4 px-10 h-full flex flex-col"
+        className="overflow-y-scroll pb-14 scroll-smooth pt-4 px-10 h-full flex flex-col"
       >
         {loading ? (
           <div className=" flex items-center h-full justify-center">
@@ -103,9 +103,9 @@ const ChatMessages = () => {
                 <div className="h-0.5 bg-[gainsboro] flex-1"></div>
               </div>
             } else if (message?.from?._id === User?._id) {
-              return <MessageFromMe data={message} key={message?._id} />;
+              return <MessageFromMe messageData={message} key={message?._id} />;
             } else {
-              return <MessageFromOther data={message} key={message?._id} />;
+              return <MessageFromOther messageData={message} key={message?._id} />;
             }
           })
         ) : (

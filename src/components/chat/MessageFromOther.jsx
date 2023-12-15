@@ -4,11 +4,12 @@ import { useEffect, useState } from "react";
 import MessageMenu from "./MessageMenu";
 import UserCard from "../UserCard";
 
-const MessageFromOther = ({ data, noMenu = false }) => {
+const MessageFromOther = ({ messageData, noMenu = false }) => {
   const { User } = useStateContext();
   const [doesHaveRecipients, setDoesHaveRecipients] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [fromDetails, setFromDetails] = useState(false);
+  const [data, setData] = useState(messageData);
 
   const handleContextMenu = (e) => {
     e.preventDefault();
@@ -24,6 +25,7 @@ const MessageFromOther = ({ data, noMenu = false }) => {
   const handleHoverUserAvatar = () => {
     setFromDetails(true);
   }
+
 
   return (
     <>
@@ -48,7 +50,7 @@ const MessageFromOther = ({ data, noMenu = false }) => {
         >
           <div className="flex mt-1 items-center justify-between">
             <strong
-              className={`underline ${
+              className={`underline pr-2 ${
                 doesHaveRecipients
                   ? "decoration-[#8bd08b]"
                   : "decoration-[#838383]"
@@ -59,6 +61,7 @@ const MessageFromOther = ({ data, noMenu = false }) => {
             {User?.role === 1 && !noMenu && (
               <MessageMenu
                 data={data}
+                setData={setData}
                 setAnchorEl={setAnchorEl}
                 anchorEl={anchorEl}
               />
@@ -67,7 +70,7 @@ const MessageFromOther = ({ data, noMenu = false }) => {
           <div className="flex items-center justify-between">
             <p className="mr-2">{data?.content}</p>
           </div>
-          <span className="font-extralight text-sm m-0.5 self-end">
+          <span className="font-extralight text-xs m-0.5 self-end">
             {moment(data?.createdAt).format("hh:mm A")}
           </span>
           <svg
@@ -85,7 +88,7 @@ const MessageFromOther = ({ data, noMenu = false }) => {
           </svg>
         </div>
 
-        {fromDetails ? <div className="bg-white rounded absolute shadow-lg -top-[150%] left-0 p-3">
+        {fromDetails ? <div className="bg-white z-[10000] rounded absolute shadow-lg -bottom-[60%] left-5 p-1">
             <UserCard data={data?.from}/>
           </div> : <></>}
       </div>
