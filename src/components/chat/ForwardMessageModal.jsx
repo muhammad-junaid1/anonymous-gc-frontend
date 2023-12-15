@@ -153,8 +153,19 @@ const ForwardMessageModal = ({
       const difference = merged?.filter(function (v) {
         return merged.indexOf(v) === merged.lastIndexOf(v);
       })
-      
-      socket.emit("chat_recipients_update", difference);
+
+      const prevIds = prevRecipients?.map((recip) => recip?._id);
+      const newIds = newRecipients?.map((recip) => recip?._id);
+
+      const recipientsUpdates = difference?.map((recipient) => {
+        if(prevIds?.includes(recipient) && !newIds?.includes(recipient)){
+            return {recipient, update: "decrement"};
+        } else if(newIds?.includes(recipient) && !prevIds?.includes(recipient)) {
+            return {recipient, update: "increment"};
+        }
+      });
+
+      socket.emit("chat_recipients_update", {recipients: difference, updates: recipientsUpdates});
 
       setBtnLoading(false);
       handleClose();

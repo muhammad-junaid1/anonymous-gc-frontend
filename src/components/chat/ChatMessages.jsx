@@ -78,8 +78,8 @@ const ChatMessages = () => {
     fetchMessages();
 
     if (socket) {
-      socket.on("chat_recipients_updated", (status) => {
-        setRecipientsUpdated(status);
+      socket.on("chat_recipients_updated", ({update}) => {
+        setRecipientsUpdated(update);
       });
     }
   }, []);
@@ -89,10 +89,8 @@ const ChatMessages = () => {
       messagesContainerRef.current.scrollTop =
         messagesContainerRef.current.scrollHeight;
 
-      if (User?.role === 1) {
         setReceivedMessages(0);
-        socket.emit("chat_mark_read");
-      }
+        socket.emit("chat_mark_read", User?._id);
     }
   }, [messages]);
   return (

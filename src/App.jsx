@@ -57,7 +57,6 @@ function App() {
   const { isIdle } = useIdleTimer({
     timeout: 50000,
     throttle: 500,
-    // onActive: () => location.pathname === "/chat" && setReceivedMessages(0),
   });
 
   const fetchProfile = async () => {
@@ -132,9 +131,36 @@ function App() {
             }
           }
         });
+
+        socket.on("chat_recipients_updated", ({ update }) => {
+          if (User?.role !== 1) {
+            if (
+              (location?.pathname === "/chat" && isIdle()) ||
+              location?.pathname !== "/chat"
+            ) {
+              setBlink(true);
+              setTimeout(() => {
+                setBlink(false);
+              }, 500);
+              console.log(update);
+              setReceivedMessages((receivedMessages) => {
+                if (update === "increment") {
+                  return receivedMessages + 1;
+                } else {
+                    if (receivedMessages) {
+                    return receivedMessages - 1;
+                  } else {
+                    return receivedMessages;
+                  }
+                  }
+              });
+              ringtoneElem?.current?.play();
+            }
+          }
+        });
       }
     }
-  }, [User]);
+  }, [User, socket]);
 
   useEffect(() => {
     if (User) {
@@ -191,10 +217,7 @@ function App() {
 
       {!!receivedMessages && (
         <div className={`message-received-float ${blink ? "animate" : ""}`}>
-          <Link
-            className="p-[12px]"
-            to="/chat"
-          >
+          <Link className="p-[12px]" to="/chat">
             <FaInbox size={22} />
           </Link>
 
