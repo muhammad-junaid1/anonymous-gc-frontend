@@ -260,7 +260,7 @@ const ForwardMessageModal = ({
           ),
         ]}
 
-        <div className="mt-4">
+        <div className="mt-8">
           {!loading ? (
             [
               users?.length === 0 ? (

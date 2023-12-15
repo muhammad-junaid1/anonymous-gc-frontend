@@ -11,7 +11,7 @@ const ChatMessages = () => {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [recipientsUpdated, setRecipientsUpdated] = useState(false);
-  const { User, setReceivedMessages } = useStateContext();
+  const { User, setReceivedMessages, setMessageBeingSent } = useStateContext();
   const messagesContainerRef = useRef();
 
   const setChatMessagesGrouped = (data) => {
@@ -90,6 +90,7 @@ const ChatMessages = () => {
         messagesContainerRef.current.scrollHeight;
 
         setReceivedMessages(0);
+        setMessageBeingSent(false);
         socket.emit("chat_mark_read", User?._id);
     }
   }, [messages]);

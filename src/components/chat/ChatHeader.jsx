@@ -4,9 +4,11 @@ import { BsThreeDots } from "react-icons/bs";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import axios from "../../axiosConfig";
+import { useStateContext } from "../../ContextProvider";
 import { socket } from "../../App";
 
 const ChatHeader = () => {
+  const {User} = useStateContext();
       const [users, setUsers] = useState([]);
       const [onlineUsers, setOnlineUsers] = useState(0);
   const navigate = useNavigate();
@@ -59,12 +61,15 @@ const ChatHeader = () => {
   };
 
   useEffect(() => {
-    fetchUsers();
-    fetchOnlineUsers();
+    if(User?.role === 1) {
+      fetchUsers();
+      fetchOnlineUsers();
+    }
 
   }, []);
     return   <div className="chat-header shadow border-b border-gray-300 px-3 py-2 flex items-center justify-between">
-        <div className="relative">
+       
+       {User?.role === 1 && <div className="relative">
           {users?.slice(0, 6)?.map((user, index) => (
             <div
               style={{ transform: "translateY(-50%)", left: index * 25 }}
@@ -88,11 +93,13 @@ const ChatHeader = () => {
             </p>
           )}
         </div>
-        <div className="flex flex-col items-center">
+       }
+        <div className="flex flex-1 text-center flex-col items-center">
           <p className="font-extralight text-lg mt-1">Chat Group</p>
-          <p className="text-sm font-bold mb-0">
+         {User?.role === 1 && <p className="text-sm font-bold mb-0">
             {onlineUsers ? onlineUsers - 1 : onlineUsers} <span className="text-green-500">Online</span>
           </p>
+         }
         </div>
         <div>
           <IconButton>

@@ -21,13 +21,18 @@ const MessageFromMe = ({ messageData, noMenu=false }) => {
       setDoesHaveRecipients(false);
     }
   }, [data]);
+  console.log(data);
   return (
     <div
       onContextMenu={handleContextMenu}
-      className={`rounded-md relative max-w-[550px] mb-2 flex pl-3 pr-1 w-max self-end flex-col ${User?.role !== 1 ? "bg-[#3d3d3d]" : doesHaveRecipients ? "bg-[#00b300]" :  "bg-[#3d3d3d]"} text-white `}
+      className={`rounded-md relative ${data?.type === "image" ? 'max-w-[280px]' : 'max-w-[550px]'} mb-2 flex pl-3 pr-1 w-max self-end flex-col ${User?.role !== 1 ? "bg-[#3d3d3d]" : doesHaveRecipients ? "bg-[#00b300]" :  "bg-[#3d3d3d]"} text-white `}
     >
-      <div className="flex mt-1 items-center justify-between">
-        <p className="mr-2">{data?.content}</p>
+      <div className="flex mt-1 items-start justify-between w-full">
+      
+        <div className="flex flex-col items-center w-full">
+        {data?.type === "image" ? <img alt="" className="rounded object-cover w-full m-2 ml-0" src={data?.image}/> : <></>}
+          <p className="mr-2">{data?.content}</p>
+        </div>
         {(User?.role === 1 && !noMenu) && (
           <MessageMenu
           data={data}

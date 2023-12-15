@@ -48,11 +48,11 @@ const MessageFromOther = ({ messageData, noMenu = false }) => {
       }
         <div
           onContextMenu={handleContextMenu}
-          className={`rounded-md relative max-w-[550px] flex pl-3 pr-1 w-max flex-col ${
+          className={`rounded-md relative ${data?.type === "image" ? 'max-w-[280px]' : 'max-w-[550px]'} flex pl-2 pr-1 w-max flex-col ${
             doesHaveRecipients ? "bg-[#00b300]" : "bg-[#3d3d3d]"
           } text-white`}
         >
-          <div className="flex mt-1 items-center justify-between">
+          <div className="flex mt-1 items-center justify-between w-full">
           {User?.role === 1 &&
             <strong
               className={`underline pr-2 ${
@@ -73,8 +73,11 @@ const MessageFromOther = ({ messageData, noMenu = false }) => {
               />
             )}
           </div>
-          <div className="flex items-center justify-between">
-            <p className="mr-2">{data?.content}</p>
+          <div className="flex items-center justify-between w-full">
+            <div className="pr-1">
+            {data?.type==="image" ? <img alt="" className="my-2 w-full object-cover rounded" src={data?.image}/> : <></>}
+              <p className="mr-2">{data?.content}</p>
+            </div>
           </div>
           <span className="font-extralight text-xs m-0.5 self-end">
             {moment(data?.createdAt).format("hh:mm A")}
@@ -94,7 +97,7 @@ const MessageFromOther = ({ messageData, noMenu = false }) => {
           </svg>
         </div>
 
-        {fromDetails ? <div className="bg-white z-[10000] rounded absolute shadow-lg -bottom-[68%] left-5 p-1">
+        {fromDetails ? <div className="bg-white z-[10000] rounded absolute translate-y-[45%] shadow-lg top-0 left-5 p-1">
             <UserCard data={data?.from}/>
           </div> : <></>}
       </div>
