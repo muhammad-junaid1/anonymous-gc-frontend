@@ -12,6 +12,7 @@ import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import axios from "../../axiosConfig";
+import { socket } from "../../App";
 
 const style = {
   transform: "translate(-50%, -50%)",
@@ -144,9 +145,20 @@ const ForwardMessageModal = ({
         })
       );
 
+      const prevRecipients = forwardMessageModal?.data?.recipients;
+      const newRecipients = response?.data?.data?.recipients;
+
+      const merged = [...prevRecipients, ...newRecipients]?.map((el) => el?._id);
+
+      const difference = merged?.filter(function (v) {
+        return merged.indexOf(v) === merged.lastIndexOf(v);
+      })
+      
+      socket.emit("chat_recipients_update", difference);
+
       setBtnLoading(false);
       handleClose();
-      setData(() => ({...response?.data?.data}));
+      setData(() => ({ ...response?.data?.data }));
       toast.success("Recipients are updated successfuly", {
         position: "top-right",
         autoClose: 3000,
@@ -169,6 +181,7 @@ const ForwardMessageModal = ({
         progress: undefined,
         theme: "light",
       });
+      setBtnLoading(false);
     }
   };
 
@@ -262,20 +275,23 @@ const ForwardMessageModal = ({
                     )}
                   </div>
                   <div className="flex items-center justify-center">
-                  {!(forwardMessageModal?.data?.recipients?.length) && !selectedRows?.length ? <></> :
-                    <Button onClick={handleUpdateRecipients}>
-                      {btnLoading ? (
-                        <CircularProgress
-                          size={18}
-                          style={{ color: "white" }}
-                        />
-                      ) : selectedRows?.length ? (
-                        <span>Assign the selected recipients</span>
-                      ) : (
-                        <span>Clear the recipients</span>
-                      )}
-                    </Button>
-                  }
+                    {!forwardMessageModal?.data?.recipients?.length &&
+                    !selectedRows?.length ? (
+                      <></>
+                    ) : (
+                      <Button onClick={handleUpdateRecipients}>
+                        {btnLoading ? (
+                          <CircularProgress
+                            size={18}
+                            style={{ color: "white" }}
+                          />
+                        ) : selectedRows?.length ? (
+                          <span>Assign the selected recipients</span>
+                        ) : (
+                          <span>Clear the recipients</span>
+                        )}
+                      </Button>
+                    )}
                   </div>
 
                   {flowRecipientsLoading ? (

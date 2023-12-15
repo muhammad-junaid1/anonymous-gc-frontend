@@ -19,6 +19,8 @@ const MessageFromOther = ({ messageData, noMenu = false }) => {
   useEffect(() => {
     if (data?.recipients?.length > 0) {
       setDoesHaveRecipients(true);
+    } else {
+      setDoesHaveRecipients(false);
     }
   }, [data?.recipients]);
 

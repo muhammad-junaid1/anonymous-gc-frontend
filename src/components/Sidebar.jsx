@@ -55,7 +55,7 @@ const Sidebar = () => {
     }
   }, [User]);
   return (
-    <div className="sticky pt-[4.5rem] flex flex-col justify-between shadow top-0 w-[200px] h-screen">
+    <div className="sticky border-r border-gray-200 pt-[4.5rem] flex flex-col justify-between shadow top-0 w-[200px] h-screen">
       <div>
         {sidebarItems?.map((item) => {
           return <SidebarItem active={location.pathname === item?.link} key={item?.link} {...item}>{item?.text}</SidebarItem>;
