@@ -2,6 +2,7 @@ import { RxCaretDown } from "react-icons/rx";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { IoMdTrash } from "react-icons/io";
+import {FaCopy}from "react-icons/fa";
 import { TiArrowForward } from "react-icons/ti";
 import { useState } from "react";
 import ForwardMessageModal from "./ForwardMessageModal";
@@ -27,6 +28,11 @@ export default function MessageMenu({ forMe, setData, anchorEl, setAnchorEl, dat
     }); 
     handleClose();
   }
+
+  const handleCopyText = () => {
+    navigator.clipboard.writeText(data?.content || "");
+    handleClose();
+  }
   return (
     <>
       <div>
@@ -45,13 +51,13 @@ export default function MessageMenu({ forMe, setData, anchorEl, setAnchorEl, dat
           anchorEl={anchorEl}
           sx={{
             "& .MuiMenu-list": {
-              padding: 0,
+              padding: "5px 0",
             },
           }}
           anchorOrigin={
             forMe && {
               vertical: "top",
-              horizontal: "center",
+              horizontal: "right",
             }
           }
           transformOrigin={
@@ -71,14 +77,21 @@ export default function MessageMenu({ forMe, setData, anchorEl, setAnchorEl, dat
             className="flex items-center text-green-500"
           >
             <TiArrowForward size={20} style={{ color: "green" }} />{" "}
-            <p className="ml-2 pr-4 mb-0 font-medium">Forward</p>
+            <p className="ml-2 pr-4 mb-0 font-medium text-sm">Forward</p>
+          </MenuItem>
+          <MenuItem
+            onClick={handleCopyText}
+            className="flex items-center text-red-500"
+          >
+            <FaCopy size={16} style={{ color: "black" }} />{" "}
+            <p className="ml-2 pr-4 mb-0 font-medium text-sm">Copy Text</p>
           </MenuItem>
           <MenuItem
             onClick={handleClose}
             className="flex items-center text-red-500"
           >
             <IoMdTrash size={20} style={{ color: "red" }} />{" "}
-            <p className="ml-2 pr-4 mb-0 font-medium">Delete</p>
+            <p className="ml-2 pr-4 mb-0 font-medium text-sm">Delete</p>
           </MenuItem>
         </Menu>
       </div>
