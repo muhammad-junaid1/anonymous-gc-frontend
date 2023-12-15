@@ -4,7 +4,7 @@ import { useLocation } from "react-router";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useStateContext } from "./ContextProvider";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import axios from "./axiosConfig";
 import Auth from "./pages/Auth";
@@ -15,6 +15,10 @@ import Settings from "./pages/Settings";
 import Employees from "./pages/Employees";
 import Chat from "./pages/Chat";
 import { io } from "socket.io-client";
+import { FaInbox } from "react-icons/fa";
+import { useIdleTimer } from "react-idle-timer";
+import { Link } from "react-router-dom";
+import ringtone from "./assets/new-message-ringtone.mp3";
 
 const allRoutes = [
   {
@@ -44,7 +48,16 @@ function App() {
   const location = useLocation();
   const [routes, setRoutes] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [receivedMessages, setReceivedMessages] = useState(0);
   const { User, setUser } = useStateContext();
+
+  const ringtoneElem = useRef();
+
+  const [blink, setBlink] = useState(false);
+  const { isIdle } = useIdleTimer({
+    timeout: 60000,
+    throttle: 500,
+  });
 
   const fetchProfile = async () => {
     try {
@@ -71,17 +84,17 @@ function App() {
   };
 
   useEffect(() => {
-      if (
-        !token &&
-        location.pathname !== "/" &&
-        allRoutes?.find((route) => route?.path === location?.pathname)
-      ) {
-        window.location.href = "/";
-      } else {
-        if (token) {
-          fetchProfile();
-        }
+    if (
+      !token &&
+      location.pathname !== "/" &&
+      allRoutes?.find((route) => route?.path === location?.pathname)
+    ) {
+      window.location.href = "/";
+    } else {
+      if (token) {
+        fetchProfile();
       }
+    }
   }, []);
 
   const showNavbarSidebar = () => {
@@ -99,13 +112,43 @@ function App() {
 
   useEffect(() => {
     if (User) {
-      socket.emit("chat_add_user", User);
+      if (socket) {
+        socket.emit("chat_add_user", User);
+
+        socket.on("chat_message", () => {
+          if (User?.role === 1) {
+            if (
+              (location?.pathname === "/chat" && isIdle) ||
+              location?.pathname !== "/chat"
+            ) {
+              setBlink(true);
+              setTimeout(() => {
+                setBlink(false);
+              }, 500);
+
+              setReceivedMessages((messages) => messages + 1);
+              ringtoneElem?.current?.play();
+            }
+          }
+        });
+      }
     }
   }, [User]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      document.body.click();
+    }, 1000);
+  }, []);
 
   return (
     <>
       <ToastContainer />
+
+        <audio ref={ringtoneElem} className="hidden">
+        <source src={ringtone} type="audio/ogg" />
+        <source src={ringtone} type="audio/mpeg" />
+      </audio>
 
       <div className="flex">
         {showNavbarSidebar() && !loading && <Sidebar />}
@@ -132,6 +175,24 @@ function App() {
           </Routes>
         </main>
       </div>
+
+      {receivedMessages && (
+        <div className={`message-received-float ${blink ? "animate" : ""}`}>
+          <Link
+            className="p-[12px]"
+            onClick={() => {
+              setReceivedMessages(0);
+            }}
+            to="/chat"
+          >
+            <FaInbox size={22} />
+          </Link>
+
+          <div className="border border-[#1C1C1C] bg-black p-1 w-[18px] h-[18px] rounded-full absolute top-0 left-0 flex justify-center items-center text-white">
+            {receivedMessages}
+          </div>
+        </div>
+      )}
     </>
   );
 }

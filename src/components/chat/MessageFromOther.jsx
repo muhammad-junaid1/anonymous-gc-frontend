@@ -12,6 +12,7 @@ const MessageFromOther = ({ messageData, noMenu = false }) => {
   const [data, setData] = useState(messageData);
 
   const handleContextMenu = (e) => {
+    if(User?.role !== 1) return;
     e.preventDefault();
     setAnchorEl(e.currentTarget?.querySelector(".caret-down-icon"));
   };
@@ -28,10 +29,10 @@ const MessageFromOther = ({ messageData, noMenu = false }) => {
     setFromDetails(true);
   }
 
-
   return (
     <>
       <div className="flex relative items-center mb-2 ">
+      {User?.role === 1 &&
         <div
         onMouseEnter={handleHoverUserAvatar}
         onMouseLeave={() => setFromDetails(false)}
@@ -44,6 +45,7 @@ const MessageFromOther = ({ messageData, noMenu = false }) => {
           />
           
         </div>
+      }
         <div
           onContextMenu={handleContextMenu}
           className={`rounded-md relative max-w-[550px] flex pl-3 pr-1 w-max flex-col ${
@@ -51,6 +53,7 @@ const MessageFromOther = ({ messageData, noMenu = false }) => {
           } text-white`}
         >
           <div className="flex mt-1 items-center justify-between">
+          {User?.role === 1 &&
             <strong
               className={`underline pr-2 ${
                 doesHaveRecipients
@@ -60,6 +63,7 @@ const MessageFromOther = ({ messageData, noMenu = false }) => {
             >
               {data?.from?.displayName}
             </strong>
+          }
             {User?.role === 1 && !noMenu && (
               <MessageMenu
                 data={data}

@@ -1,5 +1,3 @@
-import MessageFromMe from "../../components/chat/MessageFromMe";
-import MessageFromOther from "../../components/chat/MessageFromOther";
 import ChatFooter from "../../components/chat/ChatFooter";
 import ChatHeader from "../../components/chat/ChatHeader";
 import ChatMessages from "../../components/chat/ChatMessages";
