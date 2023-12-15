@@ -48,15 +48,16 @@ function App() {
   const location = useLocation();
   const [routes, setRoutes] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [receivedMessages, setReceivedMessages] = useState(0);
-  const { User, setUser } = useStateContext();
+  const { User, setUser, receivedMessages, setReceivedMessages } =
+    useStateContext();
 
   const ringtoneElem = useRef();
 
   const [blink, setBlink] = useState(false);
   const { isIdle } = useIdleTimer({
-    timeout: 60000,
+    timeout: 50000,
     throttle: 500,
+    // onActive: () => location.pathname === "/chat" && setReceivedMessages(0),
   });
 
   const fetchProfile = async () => {
@@ -118,7 +119,7 @@ function App() {
         socket.on("chat_message", () => {
           if (User?.role === 1) {
             if (
-              (location?.pathname === "/chat" && isIdle) ||
+              (location?.pathname === "/chat" && isIdle()) ||
               location?.pathname !== "/chat"
             ) {
               setBlink(true);
@@ -136,6 +137,14 @@ function App() {
   }, [User]);
 
   useEffect(() => {
+    if (User) {
+      if (User?.unreadCount) {
+        setReceivedMessages(User?.unreadCount);
+      }
+    }
+  }, [User]);
+
+  useEffect(() => {
     setTimeout(() => {
       document.body.click();
     }, 1000);
@@ -145,26 +154,30 @@ function App() {
     <>
       <ToastContainer />
 
-        <audio ref={ringtoneElem} className="hidden">
+      <audio ref={ringtoneElem} className="hidden">
         <source src={ringtone} type="audio/ogg" />
         <source src={ringtone} type="audio/mpeg" />
       </audio>
 
       <div className="flex">
-        {showNavbarSidebar() && !loading && <Sidebar />}
+        {!!showNavbarSidebar() && !loading && <Sidebar />}
         <main
           className={`flex-1 ${showNavbarSidebar() && "pt-14"} bg-gray-100`}
         >
-          {showNavbarSidebar() && !loading && <Navbar />}
+          {!!(showNavbarSidebar() && !loading) && <Navbar />}
           <Routes>
             <Route path="/" element={<Auth />} />
-            {routes?.length > 0 &&
+            {!!(routes?.length > 0) &&
               routes?.map((route) => (
                 <Route
                   key={route?.path}
                   path={route?.path}
                   element={
-                    loading ? <Loader color="black" /> : token && route?.element
+                    loading ? (
+                      <Loader color="black" />
+                    ) : (
+                      !!token && route?.element
+                    )
                   }
                 />
               ))}
@@ -176,13 +189,10 @@ function App() {
         </main>
       </div>
 
-      {receivedMessages && (
+      {!!receivedMessages && (
         <div className={`message-received-float ${blink ? "animate" : ""}`}>
           <Link
             className="p-[12px]"
-            onClick={() => {
-              setReceivedMessages(0);
-            }}
             to="/chat"
           >
             <FaInbox size={22} />
