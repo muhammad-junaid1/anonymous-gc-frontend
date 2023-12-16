@@ -22,6 +22,9 @@ const ChatFooter = () => {
     url: null,
   });
 
+  const typing = useRef(false);
+  const timeout = useRef(undefined);
+
   function insertEmoji(emoji) {
     const inputField = messageInputRef.current;
     var cursorPosition = inputField.selectionStart;
@@ -52,7 +55,6 @@ const ChatFooter = () => {
         formData.append("from", User?._id);
         formData.append("recipients", []);
         formData.append("file", selectedImage?.file);
-
 
         await axios.post("/messages/sendImage", formData, {
           headers: {
@@ -106,6 +108,26 @@ const ChatFooter = () => {
       });
     };
     reader.readAsDataURL(file);
+  };
+
+  const handleInput = (e) => {
+    setMessageInputVal(e.target.value);
+    // setTimeout(() => {
+    //   socket.emit("chat_is_typing", User?.displayName);
+    // }, 1000);
+
+    function timeoutFunction() {
+      typing.current = false;
+    }
+
+    if (typing.current == false) {
+      typing.current = true;
+      socket.emit("chat_is_typing", User?.displayName);
+      timeout.current = setTimeout(timeoutFunction, 5000);
+    } else {
+      clearTimeout(timeout);
+      timeout.current = setTimeout(timeoutFunction, 5000);
+    }
   };
 
   const handleUnSelectImage = () => {
@@ -180,7 +202,7 @@ const ChatFooter = () => {
           type="text"
           placeholder="Start typing..."
           value={messageInputVal}
-          onInput={(e) => setMessageInputVal(e.target.value)}
+          onInput={handleInput}
         />
         {imageBeingSent || messageBeingSent ? (
           <CircularProgress size={22} style={{ color: "black" }} />
