@@ -1,6 +1,7 @@
 import { Modal, Backdrop, IconButton } from "@mui/material";
 import { IoMdClose } from "react-icons/io";
 import UserCard from "../UserCard";
+import NothingHere from "../../assets/nothing_here.png";
 
 const style = {
   transform: "translate(-50%, -50%)",
@@ -39,7 +40,14 @@ const OnlineUsersModal = ({ onlineUsersModal, onlineUsers, handleClose }) => {
 
         <h1 className="text-2xl font-bold text-center mt-4">Online</h1>
 
-          {!!(onlineUsers?.length === 0) && <div className="flex items-center h-[70%] justify-center text-gray-500 font-bold">No one is Online at the moment.</div>}
+        {!!(onlineUsers?.length === 0) && (
+          <div className="flex items-center h-[70%] justify-center text-gray-500 font-bold">
+          <div className="flex items-center text-center flex-col">
+            <img alt="" src={NothingHere} width={"70%"}/>
+              <p className="relative -top-[50px]">No one is Online at the moment.</p>
+          </div>
+          </div>
+        )}
         <div className="flex mt-5 flex-wrap gap-2">
           {onlineUsers?.map((user) => (
             <UserCard key={user?._id} data={user} width={48} />

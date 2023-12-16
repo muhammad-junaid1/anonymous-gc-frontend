@@ -96,7 +96,7 @@ const ChatHeader = () => {
                 }`}
                 style={{
                   position: "absolute",
-                  left: (totalUsersToView + 1) * 16,
+                  left: onlineUsers?.length === 0 ? 0 : (onlineUsers?.length + 1) * 16,
                   transform: isTyping ? "translateY(-70%)" : "translateY(-50%)",
                 }}
                 title="See Online users"
