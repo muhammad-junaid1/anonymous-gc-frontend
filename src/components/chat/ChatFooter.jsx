@@ -139,7 +139,7 @@ const ChatFooter = () => {
   };
 
   return (
-    <div className="chat-footer flex justify-center relative items-center py-5">
+    <div className="chat-footer flex h-[16vh] justify-center relative items-center py-5">
       <form
         onSubmit={handleSendMessage}
         className="w-[70%] bg-[#F9F9F9] flex relative items-center justify-between rounded-lg shadow-xl p-3"

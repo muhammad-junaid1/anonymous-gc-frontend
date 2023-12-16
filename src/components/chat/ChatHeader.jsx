@@ -68,7 +68,7 @@ const ChatHeader = () => {
   }, []);
   return (
     <>
-      <div className="chat-header shadow border-b border-gray-300 px-3 py-2 flex items-center justify-between">
+      <div className="chat-header shadow-lg h-[11vh] bg-[#0099fe12] border-b border-gray-300 px-3 py-2 flex items-center justify-between">
         {User?.role === 1 && (
           <div className="relative mt-1">
             {onlineUsers?.slice(0, totalUsersToView)?.map((user, index) => (

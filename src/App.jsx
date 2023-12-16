@@ -47,7 +47,7 @@ function App() {
   const location = useLocation();
   const [routes, setRoutes] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { User, setUser, receivedMessages, setReceivedMessages } =
+  const { User, setUser, setBgImg, setWeather, receivedMessages, setReceivedMessages } =
     useStateContext();
 
   const ringtoneElem = useRef();
@@ -168,8 +168,53 @@ function App() {
       }
     }
   }, [User]);
+  
+  const getSidebarBgImage = async () => {
+    const OPENWEATHER_API_KEY = import.meta.env.VITE_OPEN_WEATHER;
+    navigator.geolocation.getCurrentPosition(function (position) {
+      const latitude = position.coords.latitude;
+      const longitude = position.coords.longitude;
+
+      fetch(
+        `https://api.openweathermap.org/data/3.0/onecall?lat=${latitude}&lon=${longitude}&appid=${OPENWEATHER_API_KEY}&units=metric`
+      )
+        .then((response) => response.json())
+        .then((result) => {
+          const weather = result?.current?.weather[0];
+          const weather_description = weather?.description || "weather";
+          const weatherIcon = weather?.icon;
+          const temp = result?.current?.temp;
+          const desc = weather?.main;
+          setWeather({
+            weatherIcon,
+            temp,
+            desc,
+          });
+
+          const UNSPLASH_API_KEY = import.meta.env.VITE_UNSPLASH_KEY;
+          fetch(
+            `https://api.unsplash.com/search/photos?query=${weather_description}&auto=format&q=0&client_id=${UNSPLASH_API_KEY}&per_page=20&orientation=landscape&fit=cover`
+          )
+            .then((response) => response.json())
+            .then((result) => {
+              const randomImg =
+                result?.results[
+                  Math.floor(Math.random() * result?.results?.length)
+                ]?.links?.download;
+              const image = new Image();
+              image.src = randomImg;
+              image.onload = () => {
+                setBgImg(randomImg);
+              };
+            })
+            .catch((error) => console.log(error));
+        })
+        .catch((err) => console.log(err));
+    });
+  };
 
   useEffect(() => {
+    getSidebarBgImage();
     setTimeout(() => {
       document.body.click();
     }, 1000);
@@ -186,9 +231,7 @@ function App() {
 
       <div className="flex">
         {!!showNavbarSidebar() && !loading && <Sidebar />}
-        <main
-          className={`flex-1 bg-gray-100`}
-        >
+        <main className={`flex-1 bg-gray-100`}>
           {/* {!!(showNavbarSidebar() && !loading) && <Navbar />} */}
           <Routes>
             <Route path="/" element={<Auth />} />

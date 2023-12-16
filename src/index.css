@@ -21,7 +21,10 @@ button {
 html, body {
   scroll-behavior: smooth; 
   font-size: 16px;
+}
 
+body {
+  background: #0099fe12;
 }
 
 :root {
@@ -66,4 +69,17 @@ input:focus, input:active {
   object-fit: cover;
   border-radius: 50%;
   display: block;
+}
+
+.greeting-text {
+   display: block;
+  text-shadow: 0 0 10px var(--color1), 0 0 20px var(--color2),
+    0 0 40px var(--color3), 0 0 80px var(--color4);
+  will-change: filter, color;
+  filter: saturate(60%);
+  font-weight: 600;
+  --color1: rgb(255 255 255 / 75%);
+  --color2: rgb(116 116 116 / 53%);
+  --color3: rgb(92 158 255 / 65%);
+  --color4: rgb(185 204 234);
 }

@@ -40,28 +40,25 @@ const Sidebar = () => {
     {
       text: "Dashboard",
       link: "/dashboard",
-      Icon: ({size}) => <MdOutlineDashboard size={size} />,
-      ActiveIcon: ({size}) => (
-        <RiDashboardFill
-          className="text-primary"
-          size={size}
-        />
+      Icon: ({ size }) => <MdOutlineDashboard size={size} />,
+      ActiveIcon: ({ size }) => (
+        <RiDashboardFill className="text-primary" size={size} />
       ),
     },
     {
       text: "Employees",
       link: "/employees",
       isAdmin: true,
-      Icon: ({size}) => <MdOutlinePeople size={size} />,
-      ActiveIcon: ({size}) => (
+      Icon: ({ size }) => <MdOutlinePeople size={size} />,
+      ActiveIcon: ({ size }) => (
         <MdPeople className="text-primary" size={size} />
       ),
     },
     {
       text: "Chat",
       link: "/chat",
-      Icon: ({size}) => <MdOutlineChatBubbleOutline size={size} />,
-      ActiveIcon: ({size}) => (
+      Icon: ({ size }) => <MdOutlineChatBubbleOutline size={size} />,
+      ActiveIcon: ({ size }) => (
         <MdChatBubble className="text-primary" size={size} />
       ),
     },
@@ -69,8 +66,8 @@ const Sidebar = () => {
       text: "Settings",
       link: "/settings",
       isAdmin: true,
-      Icon: ({size}) => <FiSettings size={size} />,
-      ActiveIcon: ({size}) => (
+      Icon: ({ size }) => <FiSettings size={size} />,
+      ActiveIcon: ({ size }) => (
         <MdSettings className="text-primary" size={size} />
       ),
     },

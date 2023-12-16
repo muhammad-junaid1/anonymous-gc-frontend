@@ -63,7 +63,7 @@ const Info = () => {
       <div className="text-center text-white">
         <h1 className="font-bold text-7xl mb-1.5 ">{currDateTime?.time}</h1>
         <p>{currDateTime?.date}</p>
-        <p className="mt-12 text-4xl">{greeting} {User?.displayName}</p>
+        <p className="mt-8 text-4xl greeting-text">{greeting} {User?.displayName}</p>
       </div>
     </div>
   );

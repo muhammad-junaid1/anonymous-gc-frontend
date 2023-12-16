@@ -56,7 +56,7 @@ const ChatMessages = () => {
               data: [...data, newMessage],
               scroll: true,
             }));
-          } else if(User?.role === 1 && newMessage?.from?._id !== User?._id) {
+          } else if (User?.role === 1 && newMessage?.from?._id !== User?._id) {
             setNewMessages((prevMessages) => prevMessages + 1);
             setMessages(({ data }) => ({
               data: [...data, newMessage],
@@ -87,7 +87,7 @@ const ChatMessages = () => {
   };
 
   useEffect(() => {
-    if(!scrollToBottom){
+    if (!scrollToBottom) {
       setNewMessages(0);
     }
   }, [scrollToBottom]);
@@ -151,7 +151,7 @@ const ChatMessages = () => {
   return (
     <>
       <div
-        className="chat-body relative pb-3 min-h-[0] flex-1"
+        className="chat-body relative pb-3 min-h-[73vh] h-[73vh]"
         style={{
           backgroundImage:
             "url(https://i.pinimg.com/600x315/8c/98/99/8c98994518b575bfd8c949e91d20548b.jpg)",
@@ -163,7 +163,7 @@ const ChatMessages = () => {
       >
         <div
           style={{
-            filter: recipientsUpdated && "opacity(0.4)",
+            filter: (recipientsUpdated) && "opacity(0.4)",
           }}
           ref={messagesContainerRef}
           onScroll={handleScroll}
@@ -218,11 +218,11 @@ const ChatMessages = () => {
               className="bg-black z-50 shadow-lg w-max p-2 absolute right-10 bottom-7 cursor-pointer rounded-lg flex items-center justify-center"
             >
               <GoArrowDown size={20} style={{ color: "white" }} />
-            {!!newMessages &&
-              <div className="absolute z-[100] -top-1 flex justify-center items-center -right-1 rounded-full text-white w-[20px] h-[20px] bg-primary shadow-lg">
-                {newMessages}
-              </div>
-            }
+              {!!newMessages && (
+                <div className="absolute z-[100] -top-1 flex justify-center items-center -right-1 rounded-full text-white w-[20px] h-[20px] bg-primary shadow-lg">
+                  {newMessages}
+                </div>
+              )}
             </div>
           )}
         </div>

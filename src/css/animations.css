@@ -106,3 +106,30 @@
     opacity: 0;
   }
 }
+
+.slide-down {
+  animation: slideDown 2s ease-out forwards;
+  opacity: 0;
+  transform: translateY(-30px);
+}
+
+@keyframes slideDown {
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+
+.fade {
+  animation: fade 2s ease forwards;
+  animation-delay: 1.2s;
+  opacity: 0;
+}
+
+
+@keyframes fade {
+  to {
+    opacity: 1;
+  }
+}
