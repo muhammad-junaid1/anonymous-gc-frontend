@@ -9,7 +9,6 @@ import { toast } from "react-toastify";
 import axios from "./axiosConfig";
 import Auth from "./pages/Auth";
 import Sidebar from "./components/Sidebar";
-import Navbar from "./components/Navbar";
 import Loader from "./components/utils/Loader";
 import Settings from "./pages/Settings";
 import Employees from "./pages/Employees";
@@ -188,9 +187,9 @@ function App() {
       <div className="flex">
         {!!showNavbarSidebar() && !loading && <Sidebar />}
         <main
-          className={`flex-1 ${showNavbarSidebar() && "pt-14"} bg-gray-100`}
+          className={`flex-1 bg-gray-100`}
         >
-          {!!(showNavbarSidebar() && !loading) && <Navbar />}
+          {/* {!!(showNavbarSidebar() && !loading) && <Navbar />} */}
           <Routes>
             <Route path="/" element={<Auth />} />
             {!!(routes?.length > 0) &&

@@ -143,6 +143,7 @@ const Settings = () => {
   return (
     <div className="px-8 py-5 rounded min-h-screen">
       <strong className="text-2xl">Settings</strong>
+      <p className="text-slate-500 text-sm">Update your bio & credentials etc</p>
 
       <div className="mt-8">
         {loading ? (

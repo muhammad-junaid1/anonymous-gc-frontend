@@ -38,7 +38,7 @@ const OnlineUsersModal = ({ onlineUsersModal, onlineUsers, handleClose }) => {
           <IoMdClose size={18} />
         </IconButton>
 
-        <h1 className="text-2xl font-bold text-center mt-4">Online</h1>
+        <h1 className="text-2xl font-bold text-center mt-4 mb-3">Online</h1>
 
         {!!(onlineUsers?.length === 0) && (
           <div className="flex items-center h-[70%] justify-center text-gray-500 font-bold">

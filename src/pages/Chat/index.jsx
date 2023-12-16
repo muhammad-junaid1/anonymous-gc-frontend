@@ -4,7 +4,7 @@ import ChatMessages from "../../components/chat/ChatMessages";
 
 const Chat = () => {
   return (
-    <div className="flex flex-col" style={{ height: "calc(100vh - 60px)" }}>
+    <div className="flex flex-col min-h-screen">
       <ChatHeader />
       <ChatMessages />
       <ChatFooter />
