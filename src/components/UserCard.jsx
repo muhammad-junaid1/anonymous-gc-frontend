@@ -3,7 +3,7 @@ const UserCard = ({ data, onClick, className, width }) => {
     <div
       onClick={onClick}
       style={{width: width + "%"}}
-      className={"bg-gray-300 cursor-pointer rounded py-3 flex items-center pl-4 pr-8 " + className}
+      className={"bg-[#f3f3f3] shadow cursor-pointer rounded py-3 flex items-center pl-4 pr-8 " + className}
     >
       <div className=" w-[60px] mr-4 h-[60px] image-container">
         <img

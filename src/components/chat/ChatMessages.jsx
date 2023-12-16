@@ -13,6 +13,7 @@ const ChatMessages = () => {
   const [loading, setLoading] = useState(false);
   const [scrollToBottom, setScrollToBottom] = useState(false);
   const [recipientsUpdated, setRecipientsUpdated] = useState(false);
+  const [newMessages, setNewMessages] = useState(0);
   const { User, setReceivedMessages, setMessageBeingSent } = useStateContext();
   const messagesContainerRef = useRef();
 
@@ -50,10 +51,16 @@ const ChatMessages = () => {
       setChatMessagesGrouped(messages);
       if (socket) {
         socket.on("chat_message", (newMessage) => {
-          if (User?.role === 1 || newMessage?.from?._id === User?._id) {
+          if (newMessage?.from?._id === User?._id) {
             setMessages(({ data }) => ({
               data: [...data, newMessage],
               scroll: true,
+            }));
+          } else if(User?.role === 1 && newMessage?.from?._id !== User?._id) {
+            setNewMessages((prevMessages) => prevMessages + 1);
+            setMessages(({ data }) => ({
+              data: [...data, newMessage],
+              scroll: false,
             }));
           }
         });
@@ -78,6 +85,12 @@ const ChatMessages = () => {
     setRecipientsUpdated(false);
     fetchMessages();
   };
+
+  useEffect(() => {
+    if(!scrollToBottom){
+      setNewMessages(0);
+    }
+  }, [scrollToBottom]);
 
   useEffect(() => {
     fetchMessages();
@@ -202,9 +215,14 @@ const ChatMessages = () => {
           {!!scrollToBottom && (
             <div
               onClick={scrollBottom}
-              className="bg-black w-max p-2 absolute right-10 bottom-7 cursor-pointer rounded-lg flex items-center justify-center"
+              className="bg-black z-50 shadow-lg w-max p-2 absolute right-10 bottom-7 cursor-pointer rounded-lg flex items-center justify-center"
             >
               <GoArrowDown size={20} style={{ color: "white" }} />
+            {!!newMessages &&
+              <div className="absolute z-[100] -top-1 flex justify-center items-center -right-1 rounded-full text-white w-[20px] h-[20px] bg-primary shadow-lg">
+                {newMessages}
+              </div>
+            }
             </div>
           )}
         </div>

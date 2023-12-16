@@ -140,7 +140,7 @@ const AddEmployee = ({ activeTab, setActiveTab}) => {
 
       <label className="block text-sm mt-4">Display Name</label>
       <input
-        className="border-[0.5px] w-3/12 border-gray-400 rounded-[4px] p-2"
+        className="border-[0.5px] w-2/6 border-gray-400 rounded-[4px] p-2"
         type="text"
         name="displayName"
         value={values?.displayName || ""}
@@ -151,7 +151,7 @@ const AddEmployee = ({ activeTab, setActiveTab}) => {
       <label className="block text-sm mt-3">User ID</label>
 
       <input
-        className="border-[0.5px] w-3/12 border-gray-400 rounded-[4px] p-2"
+        className="border-[0.5px] w-2/6 border-gray-400 rounded-[4px] p-2"
         type="text"
         value={values?.username || ""}
         name="username"
@@ -160,7 +160,7 @@ const AddEmployee = ({ activeTab, setActiveTab}) => {
       />
       <label className="block text-sm mt-3">Password</label>
 
-      <div className="relative w-3/12">
+      <div className="relative w-2/6">
         <FaRandom
           onClick={setRandomPassword}
           className="absolute cursor-pointer right-3 top-[50%] -translate-y-[50%]"
@@ -178,7 +178,7 @@ const AddEmployee = ({ activeTab, setActiveTab}) => {
       </div>
 
       <div className="mt-4">
-        <Button props={{ className: "w-3/12", type: "submit", disabled: btnLoading }}>
+        <Button props={{ className: "w-2/6", type: "submit", disabled: btnLoading }}>
           {btnLoading ? (
             <CircularProgress size={18} style={{ color: "white" }} />
           ) : (
