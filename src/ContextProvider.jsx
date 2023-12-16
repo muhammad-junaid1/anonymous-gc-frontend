@@ -6,6 +6,7 @@ const DataContext = createContext({});
 export const ContextProvider = ({ children }) => {
   const [User, setUser] = useState(null);
   const [receivedMessages, setReceivedMessages] = useState(0);
+  const [sidebarShrunk, setSidebarShrunk] = useState(false);
   const [messageBeingSent, setMessageBeingSent] = useState(false);
   const [BACKEND_URL] = useState(import.meta.env.VITE_BACKEND_URL);
   return (
@@ -18,6 +19,8 @@ export const ContextProvider = ({ children }) => {
         setReceivedMessages,
         messageBeingSent,
         setMessageBeingSent,
+        sidebarShrunk, 
+        setSidebarShrunk
       }}
     >
       {children}

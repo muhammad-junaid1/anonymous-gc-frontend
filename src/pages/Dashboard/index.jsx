@@ -76,10 +76,9 @@ const Dashboard = () => {
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
         backgroundPosition: "center",
-        backgroundColor: "rgba(0, 0, 0, 0.5)",
+        backgroundColor: "rgba(255, 255, 255, 0.5)",
         backgroundBlendMode: "overlay",
-        borderImage:
-          "linear-gradient(to bottom, #0a58ff, rgb(222, 222, 222), #0a58ff) 1 100%",
+       
       }}
       className="min-h-screen"
     >
