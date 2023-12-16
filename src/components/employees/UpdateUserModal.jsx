@@ -114,7 +114,7 @@ const UpdateUserModal = ({ updateUserModal = {}, handleClose, fetchUsers }) => {
   };
 
   useEffect(() => {
-    console.log(updateUserModal?.data)
+
     const {displayName, username, password, profile_picture} = updateUserModal?.data || {};
     setValues({
       displayName, username, password

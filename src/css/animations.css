@@ -78,7 +78,7 @@
   background: var(--primary-color);
   border-radius: 50%;
   position: fixed;
-  bottom: 110px;
+  bottom: 6%;
   right: 36px;
   z-index: 5000;
 }

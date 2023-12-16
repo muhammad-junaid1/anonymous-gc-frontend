@@ -147,12 +147,12 @@ function App() {
                 if (update === "increment") {
                   return receivedMessages + 1;
                 } else {
-                    if (receivedMessages) {
+                  if (receivedMessages) {
                     return receivedMessages - 1;
                   } else {
                     return receivedMessages;
                   }
-                  }
+                }
               });
               ringtoneElem?.current?.play();
             }
@@ -160,7 +160,7 @@ function App() {
         });
       }
     }
-  }, [User, socket]);
+  }, [User, socket, location]);
 
   useEffect(() => {
     if (User) {
