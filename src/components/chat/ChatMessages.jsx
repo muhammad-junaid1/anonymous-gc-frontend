@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import { CircularProgress } from "@mui/material";
 
 const ChatMessages = () => {
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState({data: []});
   const [loading, setLoading] = useState(false);
   const [recipientsUpdated, setRecipientsUpdated] = useState(false);
   const { User, setReceivedMessages, setMessageBeingSent } = useStateContext();
@@ -37,7 +37,7 @@ const ChatMessages = () => {
       messagesWithDateSeparators.push(...groupedMessages[i]);
     }
 
-    setMessages(messagesWithDateSeparators);
+    setMessages({data: messagesWithDateSeparators, scroll: true});
   };
 
   const fetchMessages = async () => {
@@ -49,7 +49,7 @@ const ChatMessages = () => {
       if (socket) {
         socket.on("chat_message", (newMessage) => {
           if (User?.role === 1 || newMessage?.from?._id === User?._id) {
-            setMessages((prevMessages) => [...prevMessages, newMessage]);
+            setMessages(({data}) => ({data: [...data, newMessage], scroll: true}));
           }
         });
       }
@@ -78,21 +78,46 @@ const ChatMessages = () => {
     fetchMessages();
 
     if (socket) {
-      socket.on("chat_recipients_updated", ({update}) => {
+      socket.on("chat_recipients_updated", ({ update }) => {
         setRecipientsUpdated(update);
+      });
+
+      socket.on("chat_message_deleted", (id) => {
+        setMessages(({data}) => {
+
+          const messagesCopy = [...data];
+          
+          const messageIdx = data?.findIndex(
+            (message) => message?._id === id
+          );
+          if (messageIdx >= 0) {
+            messagesCopy[messageIdx] = {
+              ...messagesCopy[messageIdx],
+              type: "deleted",
+              content: "This message was deleted",
+              recipients: [],
+              image: "",
+            };
+          }
+              
+          return {data: messagesCopy, scroll: false};
+        });
       });
     }
   }, []);
 
   useEffect(() => {
-    if (messagesContainerRef?.current) {
-      messagesContainerRef.current.scrollTop =
-        messagesContainerRef.current.scrollHeight;
+    if(messages?.scroll) {
 
-        setReceivedMessages(0);
-        setMessageBeingSent(false);
-        socket.emit("chat_mark_read", User?._id);
+      if (messagesContainerRef?.current) {
+      messagesContainerRef.current.scrollTop =
+      messagesContainerRef.current.scrollHeight;
+      
+      setReceivedMessages(0);
+      setMessageBeingSent(false);
+      socket.emit("chat_mark_read", User?._id);
     }
+  }
   }, [messages]);
   return (
     <div
@@ -119,8 +144,8 @@ const ChatMessages = () => {
           <div className=" flex items-center h-full justify-center">
             <CircularProgress style={{ color: "grey" }} size={28} />
           </div>
-        ) : messages?.length ? (
-          messages?.map((message) => {
+        ) : messages?.data?.length ? (
+          messages?.data?.map((message) => {
             if (message?.type === "date-separator") {
               return (
                 <div
@@ -133,10 +158,10 @@ const ChatMessages = () => {
                 </div>
               );
             } else if (message?.from?._id === User?._id) {
-              return <MessageFromMe messageData={message} key={message?._id} />;
+              return <MessageFromMe noMenu={message?.type === "deleted"} messageData={message} key={message?._id} />;
             } else {
               return (
-                <MessageFromOther messageData={message} key={message?._id} />
+                <MessageFromOther noMenu={message?.type === "deleted"} messageData={message} key={message?._id} />
               );
             }
           })

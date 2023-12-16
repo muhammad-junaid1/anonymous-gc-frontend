@@ -2,13 +2,23 @@ import { RxCaretDown } from "react-icons/rx";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { IoMdTrash } from "react-icons/io";
-import {FaCopy}from "react-icons/fa";
+import { FaCopy } from "react-icons/fa";
 import { TiArrowForward } from "react-icons/ti";
 import { useState } from "react";
 import ForwardMessageModal from "./ForwardMessageModal";
+import { socket } from "../../App";
+import { toast } from "react-toastify";
+import { useStateContext } from "../../ContextProvider";
 
-export default function MessageMenu({ forMe, setData, anchorEl, setAnchorEl, data }) {
+export default function MessageMenu({
+  forMe,
+  setData,
+  anchorEl,
+  setAnchorEl,
+  data,
+}) {
   const open = Boolean(anchorEl);
+  const {User} = useStateContext();
   const [forwardMessageModal, setForwardMessageModal] = useState({
     isOpen: false,
   });
@@ -22,17 +32,38 @@ export default function MessageMenu({ forMe, setData, anchorEl, setAnchorEl, dat
 
   const handleForward = () => {
     setForwardMessageModal({
-      isOpen: true, 
-      data, 
-      forMe
-    }); 
+      isOpen: true,
+      data,
+      forMe,
+    });
     handleClose();
-  }
+  };
 
   const handleCopyText = () => {
     navigator.clipboard.writeText(data?.content || "");
     handleClose();
-  }
+  };
+
+  const handleDelete = () => {
+    if (socket) {
+      socket.emit("chat_delete_message", data?._id);
+
+      socket.on("chat_delete_message_failed", (status) => {
+        if (status) {
+          toast.error("Something went wrong, try again please!", {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        }
+      });
+      handleClose();
+    }
+  };
   return (
     <>
       <div>
@@ -72,6 +103,7 @@ export default function MessageMenu({ forMe, setData, anchorEl, setAnchorEl, dat
             "aria-labelledby": "basic-button",
           }}
         >
+        {!!(User?.role === 1) &&
           <MenuItem
             onClick={handleForward}
             className="flex items-center text-green-500"
@@ -79,6 +111,7 @@ export default function MessageMenu({ forMe, setData, anchorEl, setAnchorEl, dat
             <TiArrowForward size={20} style={{ color: "green" }} />{" "}
             <p className="ml-2 pr-4 mb-0 font-medium text-sm">Forward</p>
           </MenuItem>
+        }
           <MenuItem
             onClick={handleCopyText}
             className="flex items-center text-red-500"
@@ -87,7 +120,7 @@ export default function MessageMenu({ forMe, setData, anchorEl, setAnchorEl, dat
             <p className="ml-2 pr-4 mb-0 font-medium text-sm">Copy Text</p>
           </MenuItem>
           <MenuItem
-            onClick={handleClose}
+            onClick={handleDelete}
             className="flex items-center text-red-500"
           >
             <IoMdTrash size={20} style={{ color: "red" }} />{" "}

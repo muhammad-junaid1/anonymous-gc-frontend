@@ -9,7 +9,7 @@ const MessageFromOther = ({ messageData, noMenu = false }) => {
   const [doesHaveRecipients, setDoesHaveRecipients] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [fromDetails, setFromDetails] = useState(false);
-  const [data, setData] = useState(messageData);
+  const [data, setData] = useState({});
 
   const handleContextMenu = (e) => {
     if(User?.role !== 1) return;
@@ -24,6 +24,10 @@ const MessageFromOther = ({ messageData, noMenu = false }) => {
       setDoesHaveRecipients(false);
     }
   }, [data?.recipients]);
+
+  useEffect(() => {
+    setData(messageData);
+  }, [messageData]);
 
   const handleHoverUserAvatar = () => {
     setFromDetails(true);
@@ -76,7 +80,7 @@ const MessageFromOther = ({ messageData, noMenu = false }) => {
           <div className="flex items-center justify-between w-full">
             <div className="pr-1">
             {data?.type==="image" ? <img alt="" className="my-2 w-full object-cover rounded" src={data?.image}/> : <></>}
-              <p className="mr-2">{data?.content}</p>
+              <p className={`mr-2 ${data?.type === "deleted" && 'text-[#9f9f9f] italic text-sm mt-1'}`}>{data?.content}</p>
             </div>
           </div>
           <span className="font-extralight text-xs m-0.5 self-end">
