@@ -1,5 +1,7 @@
 
-const Weather = ({weatherData ={}}) => {
+const Weather = ({weatherData}) => {
+  if(weatherData) {
+
     return (
       <div className="flex fade justify-center items-center m-2 text-white">
         <img
@@ -15,6 +17,7 @@ const Weather = ({weatherData ={}}) => {
         </p>
       </div>
     );
+  }
 };
 
 export default Weather;
