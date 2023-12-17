@@ -40,11 +40,12 @@ const Settings = () => {
 
         data.append("file", file);
         setLoading(true);
-        await axios.post("/upload-file", data, {
+        const response = await axios.post("/upload-file", data, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
         });
+        setUser({ ...User, ...response.data?.data });
         toast.success("Profile Picture is updated!", {
           position: "top-right",
           autoClose: 3000,
@@ -143,7 +144,9 @@ const Settings = () => {
   return (
     <div className="px-8 py-5 rounded min-h-screen">
       <strong className="text-2xl">Settings</strong>
-      <p className="text-slate-500 text-sm">Update your bio & credentials etc</p>
+      <p className="text-slate-500 text-sm">
+        Update your bio & credentials etc
+      </p>
 
       <div className="mt-8">
         {loading ? (
