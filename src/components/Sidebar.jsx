@@ -101,7 +101,7 @@ const Sidebar = () => {
           )}
         </div>
         <Link
-          to="/settings"
+          to={User?.role === 1 && "/settings"}
           className="flex pb-5 pt-2 items-center flex-col border-b border-[#d3d3d3] mt-1"
         >
           <div
