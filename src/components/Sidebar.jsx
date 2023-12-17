@@ -102,7 +102,7 @@ const Sidebar = () => {
         </div>
         <Link
           to="/settings"
-          className="flex pb-5 pt-2 items-center flex-col border-b mt-1"
+          className="flex pb-5 pt-2 items-center flex-col border-b border-[#d3d3d3] mt-1"
         >
           <div
             className={`image-container mx-2 transition-all ${
