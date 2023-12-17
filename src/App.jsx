@@ -40,7 +40,11 @@ const allRoutes = [
   },
 ];
 
-export const socket = io(import.meta.env.VITE_BACKEND_URL);
+export const socket = io(import.meta.env.VITE_BACKEND_URL, {
+  extraHeaders: {
+    "ngrok-skip-browser-warning": "true"
+  }
+});
 
 function App() {
   const token = localStorage.getItem("auth-token");
