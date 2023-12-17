@@ -166,7 +166,7 @@ function App() {
         });
       }
     }
-  }, [User, socket, location]);
+  }, [User, socket, location, isIdle]);
 
   useEffect(() => {
     if (User) {
