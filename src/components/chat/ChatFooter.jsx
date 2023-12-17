@@ -53,10 +53,10 @@ const ChatFooter = () => {
         formData.append("type", "image");
         formData.append("content", messageInputVal);
         formData.append("from", User?._id);
-        formData.append("recipients", []);
+        // formData.append("recipients", []);
         formData.append("file", selectedImage?.file);
 
-        await axios.post("/messages/sendImage", formData, {
+        await axios.post("/sendImage", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
