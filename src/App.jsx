@@ -118,7 +118,7 @@ function App() {
       if (socket) {
         socket.emit("chat_add_user", User);
 
-        socket.on("chat_message", () => {
+        socket.on("chat_message", (message) => {
           if (User?.role === 1) {
             if (
               (location?.pathname === "/chat" && isIdle()) ||
@@ -130,7 +130,10 @@ function App() {
               }, 500);
 
               setReceivedMessages((messages) => messages + 1);
-              ringtoneElem?.current?.play();
+
+              if(!(message?.from === User?._id)){
+                ringtoneElem?.current?.play();
+              }
             }
           }
         });
