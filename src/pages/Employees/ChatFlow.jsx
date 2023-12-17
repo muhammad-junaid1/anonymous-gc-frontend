@@ -6,6 +6,7 @@ import UserCard from "../../components/UserCard";
 import axios from "../../axiosConfig";
 import { toast } from "react-toastify";
 import Step2 from "../../components/chatflow/Step2";
+import NothingHere from "../../assets/nothing_here.png";
 import UpdateRecipientsModal from "../../components/chatflow/UpdateRecipientsModal";
 import Loader from "../../components/utils/Loader";
 
@@ -59,14 +60,20 @@ const ChatFlow = ({ activeTab }) => {
           </Button>
         </div>
         <div className="mt-5 flex flex-wrap items-center gap-4">
-          {flows?.map((flow) => (
+          {flows?.length === 0 ?  <div className="flex w-full justify-center slideDown items-center relative flex-col">
+              <img src={NothingHere} width={400} alt="" />
+              <h1 className="text-lg absolute bottom-4">Nothing here!</h1>
+            </div> : flows?.map((flow) => (
             <UserCard
               onClick={() =>
                 setRecipientsModal({ open: true, flow })
               }
               key={flow?._id}
               width={30}
+              fetchFlows={fetchFlows}
+              type="flow"
               data={{
+                _id: flow?._id,
                 displayName: flow?.user?.displayName,
                 profile_picture: flow?.user?.profile_picture,
                 username: flow?.user?.username,

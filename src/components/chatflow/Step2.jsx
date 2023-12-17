@@ -204,15 +204,8 @@ const Step2 = ({
   }, [users, selectedEmployee]);
   return (
     <>
-      <div>
+      <div className="overflow-y-scroll h-[98%]">
         {!loading ? (
-          [
-            users?.length === 0 ? (
-              <div className="flex slideDown items-center relative flex-col">
-                <img src={NothingHere} width={400} alt="" />
-                <h1 className="text-lg absolute bottom-4">Nothing here!</h1>
-              </div>
-            ) : (
               <div>
                 <h1 className="text-lg mb-4 text-center">
                   {updateRecipients ? (
@@ -238,6 +231,11 @@ const Step2 = ({
                     </Button>
                   </div>
                 )}
+
+                {users?.length === 0 ?<div className="flex slideDown items-center relative flex-col">
+                <img src={NothingHere} width={400} alt="" />
+                <h1 className="text-lg absolute bottom-4">Nothing here!</h1>
+              </div> :
 
                 <DataGrid
                   className="slideDown mt-8"
@@ -269,10 +267,10 @@ const Step2 = ({
                     checkbox: "30px",
                   }}
                 />
+                }
               </div>
-            ),
-          ]
-        ) : (
+          )
+         : (
           <Loader color="black" />
         )}
       </div>
