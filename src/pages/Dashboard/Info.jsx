@@ -44,7 +44,7 @@ const Info = () => {
 
     const formattedDate = now.toLocaleDateString("en-US", options);
     setCurrDateTime({
-      time: `${format(now.getHours())}:${format(now.getMinutes())}`,
+      time: `${format(now.getHours() > 12 ? now.getHours() - 12 : now.getHours())}:${format(now.getMinutes())}`,
       date: formattedDate,
     });
     setGreeting(getGreeting(now.getHours()));
@@ -63,7 +63,7 @@ const Info = () => {
       <div className="text-center text-white">
         <h1 className="font-bold text-7xl mb-1.5 ">{currDateTime?.time}</h1>
         <p>{currDateTime?.date}</p>
-        <p className="mt-8 text-4xl greeting-text">{greeting} {User?.displayName}</p>
+        <p className="mt-8 text-5xl font-bold greeting-text">{greeting} {User?.displayName}</p>
       </div>
     </div>
   );

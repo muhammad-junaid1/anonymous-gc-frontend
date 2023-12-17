@@ -78,8 +78,8 @@ input:focus, input:active {
   will-change: filter, color;
   filter: saturate(60%);
   font-weight: 600;
-  --color1: rgb(255 255 255 / 75%);
+  --color1: rgb(131 131 131 / 75%);
   --color2: rgb(116 116 116 / 53%);
-  --color3: rgb(92 158 255 / 65%);
+  --color3: rgb(116 158 220 / 18%);
   --color4: rgb(185 204 234);
 }
