@@ -69,7 +69,7 @@ const ChatFlow = ({ activeTab }) => {
                 setRecipientsModal({ open: true, flow })
               }
               key={flow?._id}
-              width={30}
+              width={48}
               fetchFlows={fetchFlows}
               type="flow"
               data={{
