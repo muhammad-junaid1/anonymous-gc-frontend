@@ -132,7 +132,7 @@ function App() {
               setReceivedMessages((messages) => messages + 1);
 
               if(!(message?.from === User?._id)){
-                ringtoneElem?.current?.play();
+                // ringtoneElem?.current?.play();
               }
             }
           }
@@ -160,7 +160,7 @@ function App() {
                   }
                 }
               });
-              ringtoneElem?.current?.play();
+              // ringtoneElem?.current?.play();
             }
           }
         });

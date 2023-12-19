@@ -49,6 +49,7 @@ const ChatMessages = () => {
       const response = await axios.get("/messages");
       const messages = response?.data?.data;
       setChatMessagesGrouped(messages);
+      scrollBottom();
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -94,7 +95,7 @@ const ChatMessages = () => {
             }));
           }
         });
-        
+
       socket.on("chat_recipients_updated", ({ update }) => {
         setRecipientsUpdated(update);
       });
