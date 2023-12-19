@@ -49,22 +49,6 @@ const ChatMessages = () => {
       const response = await axios.get("/messages");
       const messages = response?.data?.data;
       setChatMessagesGrouped(messages);
-      if (socket) {
-        socket.on("chat_message", (newMessage) => {
-          if (newMessage?.from?._id === User?._id) {
-            setMessages(({ data }) => ({
-              data: [...data, newMessage],
-              scroll: true,
-            }));
-          } else if (User?.role === 1 && newMessage?.from?._id !== User?._id) {
-            setNewMessages((prevMessages) => prevMessages + 1);
-            setMessages(({ data }) => ({
-              data: [...data, newMessage],
-              scroll: false,
-            }));
-          }
-        });
-      }
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -96,6 +80,21 @@ const ChatMessages = () => {
     fetchMessages();
 
     if (socket) {
+        socket.on("chat_message", (newMessage) => {
+          if (newMessage?.from?._id === User?._id) {
+            setMessages(({ data }) => ({
+              data: [...data, newMessage],
+              scroll: true,
+            }));
+          } else if (User?.role === 1 && newMessage?.from?._id !== User?._id) {
+            setNewMessages((prevMessages) => prevMessages + 1);
+            setMessages(({ data }) => ({
+              data: [...data, newMessage],
+              scroll: false,
+            }));
+          }
+        });
+        
       socket.on("chat_recipients_updated", ({ update }) => {
         setRecipientsUpdated(update);
       });
@@ -228,7 +227,7 @@ const ChatMessages = () => {
         </div>
         {recipientsUpdated && (
           <div className="absolute recipients-update-popup -bottom-5 left-0 right-0 w-full flex justify-center items-center">
-            <div className="w-[40%] flex items-center justify-between bg-black text-white rounded shadow px-3 py-2">
+            <div className="w-[70%] flex items-center justify-between bg-black text-white rounded shadow px-3 py-2">
               <p className="mb-0">Chat has some recent updates.</p>
               <div className="flex items-center">
                 <p
