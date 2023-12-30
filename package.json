@@ -1,6 +1,7 @@
 {
   "name": "anonymous-gc-frontend",
   "private": true,
+  "homepage": "https://teaminfosharing.com/",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
