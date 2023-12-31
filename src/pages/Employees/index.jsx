@@ -8,8 +8,8 @@ const Employees = () => {
 
   return (
     <div className="px-8 py-5 rounded min-h-screen">
-      <strong className="text-2xl">Employees</strong>
-      <p className="text-slate-500 text-sm">Manage all of your Employees in a single page!</p>
+      <strong className="text-2xl">Team</strong>
+      <p className="text-slate-500 text-sm">Manage your team here</p>
 
       <div className="mt-10">
         <ul className="flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-300 ">
@@ -23,7 +23,7 @@ const Employees = () => {
               }
               onClick={() => setActiveTab("addEmployee")}
             >
-              Add Employees
+              Add Members
             </a>
           </li>
           <li className="me-2">
@@ -36,7 +36,7 @@ const Employees = () => {
               }
               onClick={() => setActiveTab("viewEmployee")}
             >
-              View Employees
+              View Team
             </a>
           </li>
           <li className="me-2">
