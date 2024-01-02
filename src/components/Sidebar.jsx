@@ -46,7 +46,7 @@ const Sidebar = () => {
       ),
     },
     {
-      text: "Employees",
+      text: "Team",
       link: "/employees",
       isAdmin: true,
       Icon: ({ size }) => <MdOutlinePeople size={size} />,

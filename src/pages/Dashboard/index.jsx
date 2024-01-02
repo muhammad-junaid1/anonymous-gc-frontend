@@ -4,7 +4,7 @@ import { useStateContext } from "../../ContextProvider";
 import { useEffect, useState } from "react";
 
 const Dashboard = () => {
-  const {weather, bgImg} = useStateContext();
+  const { weather, bgImg } = useStateContext();
   const [showContent, setShowContent] = useState(false);
 
   useEffect(() => {
@@ -19,10 +19,8 @@ const Dashboard = () => {
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
         backgroundPosition: "center",
-        // backgroundColor: "rgba(255, 255, 255, 0.8)",
-        backgroundColor: "rgb(0 88 209)",
         backgroundBlendMode: "overlay",
-       
+        backgroundColor: "rgba(0,0,0,0.6)",
       }}
       className="min-h-screen flex justify-center items-center"
     >

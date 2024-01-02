@@ -5,8 +5,10 @@ import axios from "../../axiosConfig.js";
 import { toast } from "react-toastify";
 import { CircularProgress } from "@mui/material";
 
-const AddEmployee = ({ activeTab, setActiveTab}) => {
-  const [selectedImage, setSelectedImage] = useState(null);
+const AddEmployee = ({ activeTab, setActiveTab }) => {
+  const [selectedImage, setSelectedImage] = useState(
+    "src/assets/Default_Profile_Pic.svg"
+  );
   const [btnLoading, setBtnLoading] = useState(false);
   const [values, setValues] = useState({
     displayName: "",
@@ -84,7 +86,7 @@ const AddEmployee = ({ activeTab, setActiveTab}) => {
       setSelectedImage(null);
       fileInputRef.current.value = "";
 
-      toast.success(response?.data?.message, {
+      toast.success("User created successfully", {
         position: "top-right",
         autoClose: 3000,
         hideProgressBar: false,
@@ -132,7 +134,12 @@ const AddEmployee = ({ activeTab, setActiveTab}) => {
         </div>
       )}
 
-      <input ref={fileInputRef} type="file" onInput={handleSelectImage} className="mt-2" />
+      <input
+        ref={fileInputRef}
+        type="file"
+        onInput={handleSelectImage}
+        className="mt-2"
+      />
 
       <h1 className="text-primary mt-6 mb-2 font-bold uppercase text-xs">
         Other details
@@ -178,7 +185,9 @@ const AddEmployee = ({ activeTab, setActiveTab}) => {
       </div>
 
       <div className="mt-4">
-        <Button props={{ className: "w-2/6", type: "submit", disabled: btnLoading }}>
+        <Button
+          props={{ className: "w-2/6", type: "submit", disabled: btnLoading }}
+        >
           {btnLoading ? (
             <CircularProgress size={18} style={{ color: "white" }} />
           ) : (

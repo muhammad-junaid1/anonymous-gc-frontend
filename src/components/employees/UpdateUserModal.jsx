@@ -41,9 +41,11 @@ const UpdateUserModal = ({ updateUserModal = {}, handleClose, fetchUsers }) => {
     }
 
     setValues({ ...values, password: result });
-  };  const handleInputUsername = (e) => {
+  };
+  const handleInputUsername = (e) => {
     setValues({ ...values, username: e.target.value });
-  };  const handleInputDisplayName = (e) => {
+  };
+  const handleInputDisplayName = (e) => {
     setValues({
       ...values,
       displayName: e.target.value,
@@ -65,7 +67,6 @@ const UpdateUserModal = ({ updateUserModal = {}, handleClose, fetchUsers }) => {
     reader.readAsDataURL(file);
   };
 
-
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
@@ -76,14 +77,18 @@ const UpdateUserModal = ({ updateUserModal = {}, handleClose, fetchUsers }) => {
       data.append("username", values?.username);
       data.append("password", values?.password);
 
-      if(selectedImage?.file) {
+      if (selectedImage?.file) {
         data.append("file", selectedImage?.file);
       }
-      const response = await axios.post("/users/" + updateUserModal?.data?._id, data, {
-        headers: {
-          "Content-Type": "multipart/form-data"
+      const response = await axios.post(
+        "/users/" + updateUserModal?.data?._id,
+        data,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         }
-      });
+      );
       toast.success(response.data?.message, {
         position: "top-right",
         autoClose: 3000,
@@ -114,12 +119,14 @@ const UpdateUserModal = ({ updateUserModal = {}, handleClose, fetchUsers }) => {
   };
 
   useEffect(() => {
-
-    const {displayName, username, password, profile_picture} = updateUserModal?.data || {};
+    const { displayName, username, password, profile_picture } =
+      updateUserModal?.data || {};
     setValues({
-      displayName, username, password
-    })
-    setSelectedImage({url: profile_picture});
+      displayName,
+      username,
+      password,
+    });
+    setSelectedImage({ url: profile_picture });
   }, [updateUserModal?.data]);
   return (
     <Modal
@@ -150,11 +157,8 @@ const UpdateUserModal = ({ updateUserModal = {}, handleClose, fetchUsers }) => {
           <IoMdClose size={18} />
         </IconButton>
 
-        <h1 className="text-lg text-center">Update Employee Details</h1>
-        <form
-          onSubmit={handleSubmit}
-          action=""
-        >
+        <h1 className="text-lg text-center">Update Team Member Details</h1>
+        <form onSubmit={handleSubmit} action="">
           <h1 className="text-primary mt-5 mb-2 font-bold uppercase text-xs">
             Profile pic
           </h1>
@@ -220,31 +224,30 @@ const UpdateUserModal = ({ updateUserModal = {}, handleClose, fetchUsers }) => {
             />
           </div>
 
-      
-        <div className="mt-5 flex items-center justify-center space-x-2">
-          <MuiButton
-            onClick={handleClose}
-            ripple="true"
-            variant="outlined"
-            className={`shadow-none  rounded-md text-sm text-black`}
-          >
-            Cancel
-          </MuiButton>
-          <Button
-            style={{
-              color: "white",
-            }}
-            props={{
-              type: "submit"
-            }}
-          >
-            {btnloading ? (
-              <CircularProgress size={18} sx={{ color: "white" }} />
-            ) : (
-              <span>Update</span>
-            )}
-          </Button>
-        </div>
+          <div className="mt-5 flex items-center justify-center space-x-2">
+            <MuiButton
+              onClick={handleClose}
+              ripple="true"
+              variant="outlined"
+              className={`shadow-none  rounded-md text-sm text-black`}
+            >
+              Cancel
+            </MuiButton>
+            <Button
+              style={{
+                color: "white",
+              }}
+              props={{
+                type: "submit",
+              }}
+            >
+              {btnloading ? (
+                <CircularProgress size={18} sx={{ color: "white" }} />
+              ) : (
+                <span>Update</span>
+              )}
+            </Button>
+          </div>
         </form>
       </div>
     </Modal>
