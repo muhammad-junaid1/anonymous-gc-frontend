@@ -25,7 +25,7 @@ const UpdateRecipientsModal = ({ recipientsModal = {}, flow, handleClose, fetchF
     >
       <div
         style={style}
-        className={`w-[calc(100%-20px)] md:w-[70%] bg-white absolute top-1/2 left-1/2 px-5 pt-12 pb-6 rounded-md`}
+        className={`w-[calc(100%-20px)] md:w-[70%] h-[90vh] bg-white absolute top-1/2 left-1/2 px-5 pt-12 pb-6 rounded-md`}
       >
         <IconButton
           sx={{
@@ -39,7 +39,9 @@ const UpdateRecipientsModal = ({ recipientsModal = {}, flow, handleClose, fetchF
           <IoMdClose size={18} />
         </IconButton>
 
-        <Step2 flow={flow} updateRecipients fetchFlows={fetchFlows} handleClose={handleClose} selectedEmployee={selectedEmployee}/>
+        <div className="h-[98%] overflow-y-scroll">
+          <Step2 flow={flow} updateRecipients fetchFlows={fetchFlows} handleClose={handleClose} selectedEmployee={selectedEmployee}/>
+        </div>
 
       </div>
     </Modal>

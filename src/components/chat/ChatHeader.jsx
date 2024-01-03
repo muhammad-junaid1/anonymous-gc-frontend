@@ -7,6 +7,7 @@ import { useStateContext } from "../../ContextProvider";
 import { socket } from "../../App";
 import { IoMdEye } from "react-icons/io";
 import OnlineUsersModal from "./OnlineUsersModal";
+import DefaultImg from "../../assets/user.png";
 
 const totalUsersToView = 2;
 
@@ -83,7 +84,7 @@ const ChatHeader = () => {
                 } w-[28px] h-[28px]`}
               >
                 <img
-                  src={user?.profile_picture}
+                  src={user?.profile_picture || DefaultImg}
                   className="round-image border border-black"
                   alt=""
                 />

@@ -19,6 +19,7 @@ import { BiPowerOff } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import { RxSize } from "react-icons/rx";
 
+import DefaultImg from "../assets/user.png";
 const Sidebar = () => {
   const location = useLocation();
   const [sidebarItems, setSidebarItems] = useState([]);
@@ -109,7 +110,7 @@ const Sidebar = () => {
               sidebarShrunk ? "w-[45px] h-[45px]" : "w-[65px] h-[65px]"
             } shadow-lg`}
           >
-            <img className="round-image" alt="" src={User?.profile_picture} />
+            <img className="round-image" alt="" src={User?.profile_picture || DefaultImg} />
           </div>
           {!sidebarShrunk && (
             <p className="flex items-center mt-2">

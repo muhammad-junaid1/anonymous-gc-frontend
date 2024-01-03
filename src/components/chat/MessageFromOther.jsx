@@ -3,6 +3,7 @@ import { useStateContext } from "../../ContextProvider";
 import { useEffect, useState } from "react";
 import MessageMenu from "./MessageMenu";
 import UserCard from "../UserCard";
+import DefaultImg from "../../assets/user.png";
 
 const MessageFromOther = ({ messageData, noMenu = false }) => {
   const { User } = useStateContext();
@@ -43,7 +44,7 @@ const MessageFromOther = ({ messageData, noMenu = false }) => {
           className="image-container cursor-pointer mr-3 self-start w-[40px] h-[40px]"
         >
           <img
-            src={data?.from?.profile_picture}
+            src={data?.from?.profile_picture || DefaultImg}
             className="round-image"
             alt=""
           />

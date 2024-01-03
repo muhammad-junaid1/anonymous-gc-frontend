@@ -49,7 +49,7 @@ const CreateFlowModal = ({ createFlowModal = {}, handleClose, fetchFlows }) => {
     >
       <div
         style={style}
-        className={`w-[calc(100%-20px)] md:w-[70%] h-[60%] bg-white absolute top-1/2 left-1/2 px-5 pt-12 pb-6 rounded-md`}
+        className={`w-[calc(100%-20px)] md:w-[70%] h-[90%] bg-white absolute top-1/2 left-1/2 px-5 pt-12 pb-6 rounded-md`}
       >
         <IconButton
           sx={{

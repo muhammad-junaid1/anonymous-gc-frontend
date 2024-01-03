@@ -4,6 +4,7 @@ import { FaRandom } from "react-icons/fa";
 import axios from "../../axiosConfig.js";
 import { toast } from "react-toastify";
 import { CircularProgress } from "@mui/material";
+import DefaultImg from "../../assets/user.png";
 
 const AddEmployee = ({ activeTab, setActiveTab }) => {
   const [selectedImage, setSelectedImage] = useState(
@@ -38,7 +39,7 @@ const AddEmployee = ({ activeTab, setActiveTab }) => {
     const characters = "abcdefghijklmnopqrstuvwxyz0123456789";
     const charactersLength = characters.length;
     let counter = 0;
-    while (counter < 6) {
+    while (counter < 8) {
       result += characters.charAt(Math.floor(Math.random() * charactersLength));
       counter += 1;
     }
@@ -127,7 +128,7 @@ const AddEmployee = ({ activeTab, setActiveTab }) => {
           <img
             className="round-image stroke-black"
             width={100}
-            src={selectedImage?.url}
+            src={selectedImage?.url || DefaultImg}
             height={100}
             alt="profile pic"
           />
@@ -176,7 +177,8 @@ const AddEmployee = ({ activeTab, setActiveTab }) => {
         <input
           required
           name="password"
-          maxLength={6}
+          maxLength={8}
+          minLength={8}
           className="border-[0.5px] w-full border-gray-400 rounded-[4px] p-2"
           type="text"
           value={values?.password || ""}

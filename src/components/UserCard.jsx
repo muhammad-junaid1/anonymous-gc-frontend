@@ -3,6 +3,7 @@ import { FaTrashAlt } from "react-icons/fa";
 import axios from "../axiosConfig";
 import { toast } from "react-toastify";
 import { useState } from "react";
+import DefaultImg from "../assets/user.png";
 
 const UserCard = ({
   data,
@@ -63,7 +64,7 @@ const UserCard = ({
       <div className="flex items-center">
         <div className=" w-[60px] mr-4 h-[60px] image-container">
           <img
-            src={data?.profile_picture}
+            src={data?.profile_picture || DefaultImg}
             className="round-image stroke-black"
             alt="profile pic"
           />
