@@ -148,29 +148,37 @@ const ForwardMessageModal = ({
       const prevRecipients = forwardMessageModal?.data?.recipients;
       const newRecipients = response?.data?.data?.recipients;
 
-      const merged = [...prevRecipients, ...newRecipients]?.map((el) => el?._id);
+      const merged = [...prevRecipients, ...newRecipients]?.map(
+        (el) => el?._id
+      );
 
       const difference = merged?.filter(function (v) {
         return merged.indexOf(v) === merged.lastIndexOf(v);
-      })
+      });
 
       const prevIds = prevRecipients?.map((recip) => recip?._id);
       const newIds = newRecipients?.map((recip) => recip?._id);
 
       const recipientsUpdates = difference?.map((recipient) => {
-        if(prevIds?.includes(recipient) && !newIds?.includes(recipient)){
-            return {recipient, update: "decrement"};
-        } else if(newIds?.includes(recipient) && !prevIds?.includes(recipient)) {
-            return {recipient, update: "increment"};
+        if (prevIds?.includes(recipient) && !newIds?.includes(recipient)) {
+          return { recipient, update: "decrement" };
+        } else if (
+          newIds?.includes(recipient) &&
+          !prevIds?.includes(recipient)
+        ) {
+          return { recipient, update: "increment" };
         }
       });
 
-      socket.emit("chat_recipients_update", {recipients: difference, updates: recipientsUpdates});
+      socket.emit("chat_recipients_update", {
+        recipients: difference,
+        updates: recipientsUpdates,
+      });
 
       setBtnLoading(false);
       handleClose();
       setData(() => ({ ...response?.data?.data }));
-      toast.success("Recipients are updated successfuly", {
+      toast.success("Recipients are updated successfully", {
         position: "top-right",
         autoClose: 3000,
         hideProgressBar: false,
