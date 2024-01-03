@@ -125,11 +125,6 @@ const ChatHeader = () => {
             </p>
           )}
         </div>
-        <div>
-          <IconButton>
-            <BsThreeDots size={22} style={{ color: "black" }} />
-          </IconButton>
-        </div>
       </div>
 
       {!!onlineUsersModal && (
