@@ -1,7 +1,7 @@
 import { CircularProgress, IconButton } from "@mui/material";
 import { VscSend } from "react-icons/vsc";
 import { FaRegSmile } from "react-icons/fa";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import EmojiBox from "./EmojiBox";
 import { IoMdImage } from "react-icons/io";
 import { socket } from "../../App";
@@ -10,6 +10,7 @@ import { FaFileUpload } from "react-icons/fa";
 import { useStateContext } from "../../ContextProvider";
 import { toast } from "react-toastify";
 import axios from "../../axiosConfig";
+import { uploadFile } from "../../services";
 
 const ChatFooter = () => {
   const [showEmojiBox, setShowEmojiBox] = useState(false);
@@ -25,7 +26,31 @@ const ChatFooter = () => {
 
   // ****************************state variable to store the selected file******************************
 
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFile, setSelectedFile] = useState("");
+
+  const fileInputRef = useRef();
+
+  const uploadFile = () => {
+    fileInputRef.current.click();
+  };
+
+  useEffect(() => {
+    const getFile = async () => {
+      if (selectedFile) {
+        const formData = new FormData();
+        formData.append("name", selectedFile.name);
+        formData.append("file", selectedFile);
+
+        try {
+          let response = await uploadFile(formData);
+        } catch (error) {
+          console.error("File upload failed:", error);
+        }
+      }
+    };
+
+    getFile();
+  }, [selectedFile]);
 
   // ****************************************************************************************************
 
@@ -189,9 +214,19 @@ const ChatFooter = () => {
 
         {/* code here */}
 
-        <button style={{ color: "grey", margin: "10px" }}>
+        <button
+          style={{ color: "grey", margin: "10px" }}
+          onClick={() => uploadFile()}
+        >
           <FaFileUpload size={20} />
         </button>
+
+        <input
+          type="file"
+          ref={fileInputRef}
+          style={{ display: "none" }}
+          onChange={(e) => setSelectedFile(e.target.files[0])}
+        />
 
         {/* code here */}
         <input
