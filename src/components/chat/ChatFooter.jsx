@@ -6,6 +6,7 @@ import EmojiBox from "./EmojiBox";
 import { IoMdImage } from "react-icons/io";
 import { socket } from "../../App";
 import { FaTimes } from "react-icons/fa";
+import { FaFileUpload } from "react-icons/fa";
 import { useStateContext } from "../../ContextProvider";
 import { toast } from "react-toastify";
 import axios from "../../axiosConfig";
@@ -21,6 +22,12 @@ const ChatFooter = () => {
     file: null,
     url: null,
   });
+
+  // ****************************state variable to store the selected file******************************
+
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  // ****************************************************************************************************
 
   const typing = useRef(false);
   const timeout = useRef(undefined);
@@ -180,6 +187,13 @@ const ChatFooter = () => {
           </IconButton>
         )}
 
+        {/* code here */}
+
+        <button style={{ color: "grey", margin: "10px" }}>
+          <FaFileUpload size={20} />
+        </button>
+
+        {/* code here */}
         <input
           type="file"
           multiple={false}
