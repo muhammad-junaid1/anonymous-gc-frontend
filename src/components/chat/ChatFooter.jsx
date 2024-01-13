@@ -13,7 +13,13 @@ import axios from "../../axiosConfig";
 const ChatFooter = () => {
   const [showEmojiBox, setShowEmojiBox] = useState(false);
   const [messageInputVal, setMessageInputVal] = useState("");
-  const { User, messageBeingSent, setMessageBeingSent } = useStateContext();
+  const {
+    User,
+    messageBeingSent,
+    setMessageBeingSent,
+    replyMessage,
+    setReplyMessage,
+  } = useStateContext();
   const messageInputRef = useRef();
   const imagePicker = useRef();
   const [imageBeingSent, setImageBeingSent] = useState(false);
@@ -56,11 +62,17 @@ const ChatFooter = () => {
         // formData.append("recipients", []);
         formData.append("file", selectedImage?.file);
 
-        await axios.post("/sendImage", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
+        await axios.post(
+          `/sendImage?isReply=${
+            replyMessage ? replyMessage?.from?._id : "false"
+          }`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
 
         setImageBeingSent(false);
 
@@ -69,18 +81,22 @@ const ChatFooter = () => {
           url: null,
         });
       } else {
-        const message = {
-          type: "text",
-          content: messageInputVal,
-          from: User?._id,
-          recipients: [],
+        const data = {
+          message: {
+            type: "text",
+            content: messageInputVal,
+            from: User?._id,
+            recipients: [],
+          },
+          isReply: replyMessage ? replyMessage?.from?._id : false,
         };
         if (socket) {
-          socket.emit("chat_send_message", message);
+          socket.emit("chat_send_message", data);
           setMessageBeingSent(true);
         }
       }
       setMessageInputVal("");
+      setReplyMessage(null);
     } catch (error) {
       console.log(error);
       setImageBeingSent(false);
@@ -112,9 +128,6 @@ const ChatFooter = () => {
 
   const handleInput = (e) => {
     setMessageInputVal(e.target.value);
-    // setTimeout(() => {
-    //   socket.emit("chat_is_typing", User?.displayName);
-    // }, 1000);
 
     function timeoutFunction() {
       typing.current = false;

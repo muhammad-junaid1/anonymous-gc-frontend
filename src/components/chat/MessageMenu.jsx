@@ -8,6 +8,7 @@ import { useState } from "react";
 import ForwardMessageModal from "./ForwardMessageModal";
 import { socket } from "../../App";
 import { toast } from "react-toastify";
+import {MdOutlineReply } from "react-icons/md";
 import { useStateContext } from "../../ContextProvider";
 
 export default function MessageMenu({
@@ -18,7 +19,7 @@ export default function MessageMenu({
   data,
 }) {
   const open = Boolean(anchorEl);
-  const {User} = useStateContext();
+  const {User, primaryColor, setReplyMessage, replyMessage} = useStateContext();
   const [forwardMessageModal, setForwardMessageModal] = useState({
     isOpen: false,
   });
@@ -64,6 +65,11 @@ export default function MessageMenu({
       handleClose();
     }
   };
+
+  const handleReply = () => {
+    setReplyMessage(data);
+    handleClose();
+  }
   return (
     <>
       <div>
@@ -112,6 +118,16 @@ export default function MessageMenu({
             <p className="ml-2 pr-4 mb-0 font-medium text-sm">Forward</p>
           </MenuItem>
         }
+
+          {!!(User?.role !== 1) &&
+          <MenuItem
+            onClick={handleReply}
+            className="flex items-center text-primary"
+          >
+            <MdOutlineReply  size={20} style={{ color: primaryColor }} />{" "}
+            <p className="ml-2 pr-4 mb-0 font-medium text-sm">Reply</p>
+          </MenuItem>
+        }
           <MenuItem
             onClick={handleCopyText}
             className="flex items-center text-red-500"
@@ -119,6 +135,8 @@ export default function MessageMenu({
             <FaCopy size={16} style={{ color: "black" }} />{" "}
             <p className="ml-2 pr-4 mb-0 font-medium text-sm">Copy Text</p>
           </MenuItem>
+
+          {!!(User?.role === 1) &&
           <MenuItem
             onClick={handleDelete}
             className="flex items-center text-red-500"
@@ -126,6 +144,7 @@ export default function MessageMenu({
             <IoMdTrash size={20} style={{ color: "red" }} />{" "}
             <p className="ml-2 pr-4 mb-0 font-medium text-sm">Delete</p>
           </MenuItem>
+          }
         </Menu>
       </div>
 

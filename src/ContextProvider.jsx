@@ -8,6 +8,7 @@ export const ContextProvider = ({ children }) => {
   const [receivedMessages, setReceivedMessages] = useState(0);
   const [sidebarShrunk, setSidebarShrunk] = useState(false);
   const [bgImg, setBgImg] = useState("");
+  const [replyMessage, setReplyMessage] = useState(null);
   const [weather, setWeather] = useState(null);
   const [messageBeingSent, setMessageBeingSent] = useState(false);
   const [BACKEND_URL] = useState(import.meta.env.VITE_BACKEND_URL);
@@ -24,7 +25,8 @@ export const ContextProvider = ({ children }) => {
         sidebarShrunk, 
         setSidebarShrunk, 
         weather, setWeather, 
-        bgImg, setBgImg
+        bgImg, setBgImg, 
+        replyMessage, setReplyMessage
       }}
     >
       {children}

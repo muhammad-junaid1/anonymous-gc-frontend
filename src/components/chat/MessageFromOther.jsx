@@ -13,7 +13,6 @@ const MessageFromOther = ({ messageData, noMenu = false }) => {
   const [data, setData] = useState({});
 
   const handleContextMenu = (e) => {
-    if(User?.role !== 1) return;
     e.preventDefault();
     setAnchorEl(e.currentTarget?.querySelector(".caret-down-icon"));
   };
@@ -57,7 +56,7 @@ const MessageFromOther = ({ messageData, noMenu = false }) => {
             doesHaveRecipients ? "bg-[#00b300]" : "bg-[#3d3d3d]"
           } text-white`}
         >
-          <div className="flex mt-1 items-center justify-between w-full">
+          <div className={`flex mt-1 items-center ${User?.role === 1 ? 'justify-between': 'justify-end'} w-full`}>
           {User?.role === 1 &&
             <strong
               className={`underline pr-2 ${
@@ -69,7 +68,7 @@ const MessageFromOther = ({ messageData, noMenu = false }) => {
               {data?.from?.displayName}
             </strong>
           }
-            {User?.role === 1 && !noMenu && (
+            {!noMenu && (
               <MessageMenu
                 data={data}
                 setData={setData}

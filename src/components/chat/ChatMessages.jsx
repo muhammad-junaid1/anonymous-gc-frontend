@@ -6,7 +6,9 @@ import MessageFromMe from "./MessageFromMe";
 import MessageFromOther from "./MessageFromOther";
 import { toast } from "react-toastify";
 import { GoArrowDown } from "react-icons/go";
-import { CircularProgress } from "@mui/material";
+import { CircularProgress, IconButton } from "@mui/material";
+import moment from "moment";
+import {IoIosCloseCircleOutline} from "react-icons/io";
 
 const ChatMessages = () => {
   const [messages, setMessages] = useState({ data: [] });
@@ -14,7 +16,8 @@ const ChatMessages = () => {
   const [scrollToBottom, setScrollToBottom] = useState(false);
   const [recipientsUpdated, setRecipientsUpdated] = useState(false);
   const [newMessages, setNewMessages] = useState(0);
-  const { User, setReceivedMessages, setMessageBeingSent } = useStateContext();
+  const { User, setReceivedMessages, setMessageBeingSent, setReplyMessage, replyMessage } =
+    useStateContext();
   const messagesContainerRef = useRef();
 
   const setChatMessagesGrouped = (data) => {
@@ -81,20 +84,20 @@ const ChatMessages = () => {
     fetchMessages();
 
     if (socket) {
-        socket.on("chat_message", (newMessage) => {
-          if (newMessage?.from?._id === User?._id) {
-            setMessages(({ data }) => ({
-              data: [...data, newMessage],
-              scroll: true,
-            }));
-          } else if (User?.role === 1 && newMessage?.from?._id !== User?._id) {
-            setNewMessages((prevMessages) => prevMessages + 1);
-            setMessages(({ data }) => ({
-              data: [...data, newMessage],
-              scroll: false,
-            }));
-          }
-        });
+      socket.on("chat_message", (newMessage) => {
+        if (newMessage?.from?._id === User?._id) {
+          setMessages(({ data }) => ({
+            data: [...data, newMessage],
+            scroll: true,
+          }));
+        } else if (User?.role === 1 && newMessage?.from?._id !== User?._id) {
+          setNewMessages((prevMessages) => prevMessages + 1);
+          setMessages(({ data }) => ({
+            data: [...data, newMessage],
+            scroll: false,
+          }));
+        }
+      });
 
       socket.on("chat_recipients_updated", ({ update }) => {
         setRecipientsUpdated(update);
@@ -163,7 +166,7 @@ const ChatMessages = () => {
       >
         <div
           style={{
-            filter: (recipientsUpdated) && "opacity(0.4)",
+            filter: recipientsUpdated && "opacity(0.4)",
           }}
           ref={messagesContainerRef}
           onScroll={handleScroll}
@@ -226,6 +229,49 @@ const ChatMessages = () => {
             </div>
           )}
         </div>
+
+        {replyMessage &&
+
+        <div className="absolute max-h-[130px] rounded mx-auto w-[70%] overflow-y-scroll -bottom-3 bg-gray-200 left-0 right-0">
+          <div
+            className={`flex flex-col p-3 w-max ${
+              replyMessage?.type === "image" ? "max-w-[280px]" : "max-w-[550px]"
+            } pr-4 `}
+          >
+            <div className="flex items-center w-full">
+              <div className="pr-1">
+                {replyMessage?.type === "image" ? (
+                  <img
+                    alt=""
+                    className="my-2 w-full object-cover rounded"
+                    src={replyMessage?.image}
+                  />
+                ) : (
+                  <></>
+                )}
+                <p
+                  className={`mr-2 ${
+                    replyMessage?.type === "deleted" &&
+                    "text-[#9f9f9f] italic text-sm mt-1"
+                  }`}
+                >
+                  {replyMessage?.content}
+                  
+                </p>
+              </div>
+            </div>
+            <span className="font-extralight text-xs m-0.5 self-end">
+              {moment(replyMessage?.createdAt).format("hh:mm A")}
+            </span>
+          </div>
+          <div className="absolute right-3 top-[50%] cursor-pointer" style={{transform: "translateY(-50%)"}}>
+            <IconButton onClick={() => setReplyMessage(null)}>
+              <IoIosCloseCircleOutline size={25}/>
+            </IconButton>
+          </div>
+        </div>
+        }
+
         {recipientsUpdated && (
           <div className="absolute recipients-update-popup -bottom-5 left-0 right-0 w-full flex justify-center items-center">
             <div className="w-[70%] flex items-center justify-between bg-black text-white rounded shadow px-3 py-2">
