@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import MessageMenu from "./MessageMenu";
 import UserCard from "../UserCard";
 import DefaultImg from "../../assets/user.png";
+import { FaFile } from "react-icons/fa";
 
 const MessageFromOther = ({ messageData, noMenu = false }) => {
   const { User } = useStateContext();
@@ -31,43 +32,48 @@ const MessageFromOther = ({ messageData, noMenu = false }) => {
 
   const handleHoverUserAvatar = () => {
     setFromDetails(true);
-  }
+  };
 
   return (
     <>
       <div className="flex relative items-center mb-2 ">
-      {User?.role === 1 &&
-        <div
-        onMouseEnter={handleHoverUserAvatar}
-        onMouseLeave={() => setFromDetails(false)}
-          className="image-container cursor-pointer mr-3 self-start w-[40px] h-[40px]"
-        >
-          <img
-            src={data?.from?.profile_picture || DefaultImg}
-            className="round-image"
-            alt=""
-          />
-          
-        </div>
-      }
+        {User?.role === 1 && (
+          <div
+            onMouseEnter={handleHoverUserAvatar}
+            onMouseLeave={() => setFromDetails(false)}
+            className="image-container cursor-pointer mr-3 self-start w-[40px] h-[40px]"
+          >
+            <img
+              src={data?.from?.profile_picture || DefaultImg}
+              className="round-image"
+              alt=""
+            />
+          </div>
+        )}
         <div
           onContextMenu={handleContextMenu}
-          className={`rounded-md relative ${data?.type === "image" ? 'max-w-[280px]' : 'max-w-[550px]'} flex pl-2 pr-1 w-max flex-col ${
+          className={`rounded-md relative ${
+            data?.type?.startsWith("image") ? "max-w-[280px]" : "max-w-[550px]"
+          } flex pl-2 pr-1 w-max flex-col ${
             doesHaveRecipients ? "bg-[#00b300]" : "bg-[#3d3d3d]"
           } text-white`}
         >
-          <div className={`flex mt-1 items-center ${User?.role === 1 ? 'justify-between': 'justify-end'} w-full`}>
-          {User?.role === 1 &&
-            <strong
-              className={`underline pr-2 ${
-                doesHaveRecipients
-                  ? "decoration-[#8bd08b]"
-                  : "decoration-[#838383]"
-              }`}
-            >
-              {data?.from?.displayName}
-            </strong>
-          }
+          <div
+            className={`flex mt-1 items-center ${
+              User?.role === 1 ? "justify-between" : "justify-end"
+            } w-full`}
+          >
+            {User?.role === 1 && (
+              <strong
+                className={`underline pr-2 ${
+                  doesHaveRecipients
+                    ? "decoration-[#8bd08b]"
+                    : "decoration-[#838383]"
+                }`}
+              >
+                {data?.from?.displayName}
+              </strong>
+            )}
             {!noMenu && (
               <MessageMenu
                 data={data}
@@ -79,8 +85,36 @@ const MessageFromOther = ({ messageData, noMenu = false }) => {
           </div>
           <div className="flex items-center justify-between w-full">
             <div className="pr-1">
-            {data?.type==="image" ? <img alt="" className="my-2 w-full object-cover rounded" src={data?.image}/> : <></>}
-              <p className={`mr-2 ${data?.type === "deleted" && 'text-[#9f9f9f] italic text-sm mt-1'}`}>{data?.content}</p>
+              {data?.type?.startsWith("image") ? (
+                <img
+                  alt=""
+                  className="my-2 w-full object-cover rounded"
+                  src={data?.file}
+                />
+              ) : data?.type !== "text" ? (
+                <div className="flex flex-wrap flex-col items-center m-2 justify-center">
+                  <FaFile size={30} />
+                  <p className="text-center mt-3 whitespace-pre-wrap text-sm">
+                    {data?.fileName}
+                  </p>
+                  <p
+                    onClick={() => window.open(data?.file)}
+                    className="cursor-pointer text-primary"
+                  >
+                    Download
+                  </p>
+                </div>
+              ) : (
+                <></>
+              )}
+              <p
+                className={`mr-2 ${
+                  data?.type === "deleted" &&
+                  "text-[#9f9f9f] italic text-sm mt-1"
+                }`}
+              >
+                {data?.content}
+              </p>
             </div>
           </div>
           <span className="font-extralight text-xs m-0.5 self-end">
@@ -101,11 +135,14 @@ const MessageFromOther = ({ messageData, noMenu = false }) => {
           </svg>
         </div>
 
-        {fromDetails ? <div className="bg-white z-[10000] rounded absolute translate-y-[45%] shadow-lg top-0 left-5 p-1">
-            <UserCard data={data?.from}/>
-          </div> : <></>}
+        {fromDetails ? (
+          <div className="bg-white z-[10000] rounded absolute translate-y-[45%] shadow-lg top-0 left-5 p-1">
+            <UserCard data={data?.from} />
+          </div>
+        ) : (
+          <></>
+        )}
       </div>
-
     </>
   );
 };

@@ -3,6 +3,7 @@ import moment from "moment";
 import { useStateContext } from "../../ContextProvider";
 import MessageMenu from "./MessageMenu";
 import { useEffect, useState } from "react";
+import { FaFile } from "react-icons/fa";
 
 const MessageFromMe = ({ messageData, noMenu = false }) => {
   const { User } = useStateContext();
@@ -30,7 +31,7 @@ const MessageFromMe = ({ messageData, noMenu = false }) => {
     <div
       onContextMenu={handleContextMenu}
       className={`rounded-md relative ${
-        data?.type === "image" ? "max-w-[280px]" : "max-w-[550px]"
+        data?.type?.startsWith("image") ? "max-w-[280px]" : "max-w-[550px]"
       } mb-2 flex pl-3 pr-1 w-max self-end flex-col ${
         User?.role !== 1
           ? "bg-[#3d3d3d]"
@@ -41,15 +42,19 @@ const MessageFromMe = ({ messageData, noMenu = false }) => {
     >
       <div className="flex mt-1 items-start justify-between w-full">
         <div className="flex flex-col w-full">
-          {data?.type === "image" ? (
+          {data?.type?.startsWith("image") ? (
             <img
               alt=""
               className="rounded object-cover w-full m-2 ml-0"
-              src={data?.image}
+              src={data?.file}
             />
-          ) : (
-            <></>
-          )}
+          ) : (data?.type !== "text") ? (
+            <div className="flex flex-wrap flex-col items-center m-2 justify-center">
+               <FaFile size={30}/>
+               <p className="text-center mt-3 whitespace-pre-wrap text-sm">{data?.fileName}</p>
+               <p onClick={() => window.open(data?.file)} className="cursor-pointer text-primary">Download</p>
+            </div>
+          ) : <></>}
           <p className={`mr-2 ${data?.type === "deleted" && 'text-[#9f9f9f] italic text-sm mt-1'}`}>{data?.content}</p>
         </div>
         {!noMenu && (

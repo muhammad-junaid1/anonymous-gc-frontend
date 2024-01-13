@@ -1,9 +1,9 @@
 import { CircularProgress, IconButton } from "@mui/material";
 import { VscSend } from "react-icons/vsc";
-import { FaRegSmile } from "react-icons/fa";
+import { FaFile, FaRegSmile } from "react-icons/fa";
 import { useRef, useState } from "react";
 import EmojiBox from "./EmojiBox";
-import { IoMdImage } from "react-icons/io";
+import { IoMdAttach } from "react-icons/io";
 import { socket } from "../../App";
 import { FaTimes } from "react-icons/fa";
 import { useStateContext } from "../../ContextProvider";
@@ -21,9 +21,9 @@ const ChatFooter = () => {
     setReplyMessage,
   } = useStateContext();
   const messageInputRef = useRef();
-  const imagePicker = useRef();
-  const [imageBeingSent, setImageBeingSent] = useState(false);
-  const [selectedImage, setSelectedImage] = useState({
+  const filePicker = useRef();
+  const [fileBeingSent, setFileBeingSent] = useState(false);
+  const [selectedFile, setSelectedFile] = useState({
     file: null,
     url: null,
   });
@@ -53,17 +53,17 @@ const ChatFooter = () => {
     e.preventDefault();
 
     try {
-      if (selectedImage?.file) {
-        setImageBeingSent(true);
+      if (selectedFile?.file) {
+        setFileBeingSent(true);
         const formData = new FormData();
-        formData.append("type", "image");
+        formData.append("type", selectedFile?.file?.type);
         formData.append("content", messageInputVal);
         formData.append("from", User?._id);
-        // formData.append("recipients", []);
-        formData.append("file", selectedImage?.file);
+        formData.append("fileName", selectedFile?.file?.name);
+        formData.append("file", selectedFile?.file);
 
         await axios.post(
-          `/sendImage?isReply=${
+          `/sendFile?isReply=${
             replyMessage ? replyMessage?.from?._id : "false"
           }`,
           formData,
@@ -74,9 +74,9 @@ const ChatFooter = () => {
           }
         );
 
-        setImageBeingSent(false);
+        setFileBeingSent(false);
 
-        setSelectedImage({
+        setSelectedFile({
           file: null,
           url: null,
         });
@@ -99,7 +99,7 @@ const ChatFooter = () => {
       setReplyMessage(null);
     } catch (error) {
       console.log(error);
-      setImageBeingSent(false);
+      setFileBeingSent(false);
       handleUnSelectImage();
       toast.error("Something went wrong, try again please!", {
         position: "top-right",
@@ -118,7 +118,7 @@ const ChatFooter = () => {
 
     const reader = new FileReader();
     reader.onload = (data) => {
-      setSelectedImage({
+      setSelectedFile({
         file,
         url: data.target.result,
       });
@@ -144,11 +144,11 @@ const ChatFooter = () => {
   };
 
   const handleUnSelectImage = () => {
-    setSelectedImage({
+    setSelectedFile({
       file: null,
       url: null,
     });
-    imagePicker.current.value = "";
+    filePicker.current.value = "";
   };
 
   return (
@@ -157,16 +157,25 @@ const ChatFooter = () => {
         onSubmit={handleSendMessage}
         className="w-[70%] bg-[#F9F9F9] flex relative items-center justify-between rounded-lg shadow-xl p-3"
       >
-        {!!selectedImage?.url && (
+        {!!selectedFile?.file && (
           <div className="absolute -translate-y-[105%] left-0 top-0 rounded bg-white shadow-lg p-2">
-            <img
-              alt=""
-              src={selectedImage?.url}
-              width={200}
-              className="object-contain rounded"
-            />
+            {selectedFile?.file?.type?.startsWith("image") ? (
+              <img
+                alt=""
+                src={selectedFile?.url}
+                width={200}
+                className="object-contain rounded"
+              />
+            ) : (
+              <div className="flex flex-wrap p-4 items-center justify-center flex-col">
+                <FaFile size={40} />
+                <p className="text-center mt-3 text-sm text-gray-600 whitespace-pre-wrap">
+                  {selectedFile?.file?.name}
+                </p>
+              </div>
+            )}
             <IconButton
-              onClick={!imageBeingSent && handleUnSelectImage}
+              onClick={!fileBeingSent && handleUnSelectImage}
               sx={{
                 position: "absolute",
                 "&:hover": {
@@ -182,24 +191,23 @@ const ChatFooter = () => {
           </div>
         )}
 
-        {!selectedImage?.url && (
+        {!selectedFile?.file && (
           <IconButton
             className="relative -right-[5px]"
             onClick={() => {
-              imagePicker.current?.click();
+              filePicker.current?.click();
             }}
           >
-            <IoMdImage size={20} />
+            <IoMdAttach size={20} />
           </IconButton>
         )}
 
         <input
           type="file"
           multiple={false}
-          accept="image/*"
           onInput={handleSelectImage}
           hidden
-          ref={imagePicker}
+          ref={filePicker}
         />
         <IconButton
           className="emoji-btn"
@@ -217,7 +225,7 @@ const ChatFooter = () => {
           value={messageInputVal}
           onInput={handleInput}
         />
-        {imageBeingSent || messageBeingSent ? (
+        {fileBeingSent || messageBeingSent ? (
           <CircularProgress size={22} style={{ color: "black" }} />
         ) : (
           <IconButton type="submit">
