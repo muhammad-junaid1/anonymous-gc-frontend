@@ -48,14 +48,29 @@ const MessageFromMe = ({ messageData, noMenu = false }) => {
               className="rounded object-cover w-full m-2 ml-0"
               src={data?.file}
             />
-          ) : (data?.type !== "text") ? (
+          ) : data?.type !== "text" && data?.type !== "deleted" ? (
             <div className="flex flex-wrap flex-col items-center m-2 justify-center">
-               <FaFile size={30}/>
-               <p className="text-center mt-3 whitespace-pre-wrap text-sm">{data?.fileName}</p>
-               <p onClick={() => window.open(data?.file)} className="cursor-pointer text-primary">Download</p>
+              <FaFile size={30} />
+              <p className="text-center mt-3 whitespace-pre-wrap text-sm">
+                {data?.fileName}
+              </p>
+              <p
+                onClick={() => window.open(data?.file)}
+                className="cursor-pointer text-primary"
+              >
+                Download
+              </p>
             </div>
-          ) : <></>}
-          <p className={`mr-2 ${data?.type === "deleted" && 'text-[#9f9f9f] italic text-sm mt-1'}`}>{data?.content}</p>
+          ) : (
+            <></>
+          )}
+          <p
+            className={`mr-2 ${
+              data?.type === "deleted" && "text-[#9f9f9f] italic text-sm mt-1"
+            }`}
+          >
+            {data?.content}
+          </p>
         </div>
         {!noMenu && (
           <MessageMenu

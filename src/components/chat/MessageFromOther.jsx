@@ -91,7 +91,7 @@ const MessageFromOther = ({ messageData, noMenu = false }) => {
                   className="my-2 w-full object-cover rounded"
                   src={data?.file}
                 />
-              ) : data?.type !== "text" ? (
+              ) : data?.type !== "text" && data?.type !== "deleted" ? (
                 <div className="flex flex-wrap flex-col items-center m-2 justify-center">
                   <FaFile size={30} />
                   <p className="text-center mt-3 whitespace-pre-wrap text-sm">
