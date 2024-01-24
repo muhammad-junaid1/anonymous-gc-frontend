@@ -50,7 +50,7 @@ export default function MessageMenu({
       socket.emit("chat_delete_message", data?._id);
 
       socket.on("chat_delete_message_failed", (status) => {
-        if (status) {
+        if (String(status) === "true") {
           toast.error("Something went wrong, try again please!", {
             position: "top-right",
             autoClose: 3000,
