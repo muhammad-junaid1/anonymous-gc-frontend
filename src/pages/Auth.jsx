@@ -73,7 +73,7 @@ const Auth = () => {
   }
   return (
     <div className="bg-[#F1EFEF] w-screen h-screen flex justify-center items-center">
-      <Card elevation={3} className="flex items-center w-[35%] h-[75%]">
+      <Card elevation={3} className="auth-card">
         <form
           action="#"
           onSubmit={handleLogin}
