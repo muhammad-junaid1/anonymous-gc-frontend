@@ -1,8 +1,11 @@
-# React + Vite
+# Anonymous Group Chat App 
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The backend of this app - https://github.com/muhammad-junaid1/anonymous-gc-backend
 
-Currently, two official plugins are available:
+## Screenshots
+![image](https://github.com/muhammad-junaid1/anonymous-gc-frontend/assets/69962771/9532c72d-2311-4f68-9046-ce05ba4d8ea3)
+![image](https://github.com/muhammad-junaid1/anonymous-gc-frontend/assets/69962771/de3bd710-e404-4232-ae83-8d36c9cb7678)
+![image](https://github.com/muhammad-junaid1/anonymous-gc-frontend/assets/69962771/c2e5a612-4e56-4fd9-b696-b8d31db863f5)
+![image](https://github.com/muhammad-junaid1/anonymous-gc-frontend/assets/69962771/42105a33-ea79-4d04-8dcf-d532f4b4f4ce)
+![image](https://github.com/muhammad-junaid1/anonymous-gc-frontend/assets/69962771/e4978264-b240-4b9e-9cdf-f3009b8a2874)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
