@@ -168,7 +168,7 @@ const ChatFooter = () => {
               />
             ) : (
               <div className="flex flex-wrap p-4 items-center justify-center flex-col">
-                <FaFile size={40} />
+                <FaFile size={39} />
                 <p className="text-center mt-3 text-sm text-gray-600 whitespace-pre-wrap">
                   {selectedFile?.file?.name}
                 </p>
